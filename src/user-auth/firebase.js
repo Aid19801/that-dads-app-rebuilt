@@ -13,7 +13,7 @@ export const firebaseConfig = {
 export const signUp = async (email, password) => {
     try {
         let user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        console.log('firebase | signUp | created User: ', user);
+        console.log('firebase | user created: ', user);
         return user;
     } catch (error) {
         console.log('firebase | signUp | created User ERROR: ', error);

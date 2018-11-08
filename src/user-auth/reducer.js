@@ -1,6 +1,7 @@
 import * as actions from './constants';
 const { LOGIN_PAGE_LOADING, LOGIN_PAGE_LOADED, LOGIN_PAGE_FAIL,
-    USER_LOGGING_IN, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, FIREBASE_LOGIN_STARTED } = actions;
+    USER_LOGGING_IN, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL,
+    FIREBASE_LOGIN_STARTED, USER_REGISTERING, REG_PAGE_LOADED, REG_PAGE_LOADING } = actions;
 
 const initialState = {
     isLoading: false,
@@ -74,6 +75,33 @@ export default loginReducer = (state = initialState, action) => {
         }
         break;
 
+        case USER_REGISTERING:
+        console.log('USER_REGISTERING');
+        return {
+            ...state,
+            isLoading: true,
+            isLoaded: false,
+        }
+        break;
+
+        case REG_PAGE_LOADING:
+        console.log('REG_PAGE_LOADING');
+        return {
+            ...state,
+            isLoading: true,
+            isLoaded: false,
+        }
+        break;
+
+        case REG_PAGE_LOADED:
+        console.log('REG_PAGE_LOADED');
+        return {
+            ...state,
+            isLoading: false,
+            isLoaded: true,
+        }
+        break;
+    
 
         default:
         return state;

@@ -1,26 +1,59 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import FirebaseFactory from '../firebase';
-
+import { REG_PAGE_LOADED, REG_PAGE_LOADING, USER_REGISTERING, USER_LOGIN_SUCCESS } from '../constants';
 class RegPage extends Component {
     constructor() {
         super();
         this.state = {
-
+            email: '',
+            password: '',
         }
     }
 
+    handleEmail = (email) => {
+        this.setState({
+            email,
+        })
+    }
+
+    handlePassword = (password) => {
+        this.setState({
+            password,
+        })
+    }
+
     register = async () => {
+        const { email, password } = this.state;
+        this.props.userRegistering();
         try {
-            let user = await this.props.signUp();
-            console.log('reg.js | register | created User: ', user);
+            let regStatus = await this.props.signUp(email, password);
+            console.log('reg.js | register | created User: ', regStatus);
+
+            if (regStatus && regStatus.user.email) {
+                console.log('user registered and the email is: ', regStatus.user.email);
+                this.props.userLoggedIn(regStatus.user.uid);
+                this.props.navigation.navigate('Home');
+            }
+
         } catch (error) {
             console.log('reg.js | register() catch : ', error);
         }
     }
 
     render() {
+
+        if (this.props.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <View style={styles.textInputContainer}>
+                        <Text>LOADING... </Text>
+                    </View>
+                </View>
+            )
+        }
         return (
             <View style={styles.container}>
 
@@ -53,7 +86,21 @@ class RegPage extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    isLoading: state.login.isLoading,
+    isLoaded: state.login.isLoaded,
+    uid: state.login.uid,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    pageLoading: () => dispatch({ type: REG_PAGE_LOADING }),
+    pageLoaded: () => dispatch({ type: REG_PAGE_LOADED }),
+    userRegistering: () => dispatch({ type: USER_REGISTERING }),
+    userLoggedIn: (uid) => dispatch({ type: USER_LOGIN_SUCCESS, uid }),
+});
+
 export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
     FirebaseFactory,
 )(RegPage);
 
