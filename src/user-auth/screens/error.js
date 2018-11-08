@@ -14,7 +14,7 @@ class LoginError extends Component {
             <View style={styles.container}>
             <Text>An Error Has Occurred</Text>
             <Text>Please try logging in again...</Text>
-                <Button>Back To Login</Button>
+                <Button title="back to login" onPress={() => this.props.navigation.navigate('Login')} />
             </View>
         )
     }

@@ -1,11 +1,12 @@
 import * as actions from './constants';
 const { LOGIN_PAGE_LOADING, LOGIN_PAGE_LOADED, LOGIN_PAGE_FAIL,
-    USER_LOGGING_IN } = actions;
+    USER_LOGGING_IN, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, FIREBASE_LOGIN_STARTED } = actions;
 
 const initialState = {
     isLoading: false,
     isLoaded: false,
-    error: null
+    error: null,
+    uid: null,
 }
 
 export default loginReducer = (state = initialState, action) => {
@@ -37,14 +38,6 @@ export default loginReducer = (state = initialState, action) => {
         }
         break;
 
-        case LOGIN_PAGE_FAIL:
-        console.log('LOGIN_PAGE_FAIL');
-        return {
-            ...state,
-        }
-        break;
-
-
         case USER_LOGGING_IN:
         console.log('USER_LOGGING_IN');
         return {
@@ -52,6 +45,35 @@ export default loginReducer = (state = initialState, action) => {
             isLoading: true,
         }
         break;
+
+        case FIREBASE_LOGIN_STARTED:
+        console.log('FIREBASE_LOGIN_STARTED');
+        return {
+            ...state,
+            isLoading: true,
+            isLoaded: false,
+        }
+        break;
+
+        case USER_LOGIN_SUCCESS:
+        console.log('USER_LOGIN_SUCCESS', action.uid);
+        return {
+            ...state,
+            isLoading: false,
+            isLoaded: true,
+            uid: action.uid,
+        }
+        break;
+
+        case USER_LOGIN_FAIL:
+        console.log('USER_LOGIN_FAIL');
+        return {
+            ...state,
+            isLoading: false,
+            isLoaded: true,
+        }
+        break;
+
 
         default:
         return state;

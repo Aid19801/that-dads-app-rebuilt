@@ -11,7 +11,7 @@ class LogoutPage extends Component {
         return (
             <View style={styles.container}>
                 <Text>You have logged out</Text>
-                <Button>Back To Login</Button>
+                <Button title="back to login" onPress={() => this.props.navigation.navigate('Login')}/>
             </View>
         )
     }

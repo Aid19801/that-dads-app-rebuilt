@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
+import FirebaseFactory from '../firebase';
 
 class RegPage extends Component {
     constructor() {
@@ -9,42 +11,84 @@ class RegPage extends Component {
         }
     }
 
+    register = async () => {
+        try {
+            let user = await this.props.signUp();
+            console.log('reg.js | register | created User: ', user);
+        } catch (error) {
+            console.log('reg.js | register() catch : ', error);
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>RegPage is here</Text>
+
+            <View style={styles.loginInputsContainer}>
+            
+            <Text>That Dads App | Register </Text>
+
+                <View style={styles.textInputContainer}>
+                    <TextInput 
+                        placeholder="email"
+                        style={styles.textInput}
+                        onChangeText={this.handleEmail}
+                        />
+                </View>
+
+                <View style={styles.textInputContainer}>
+                    <TextInput
+                        placeholder="password"
+                        style={styles.textInput}
+                        secureTextEntry={false}
+                        onChangeText={this.handlePassword}
+                        />
+                </View>
+
+                <Button title="Register Me!" onPress={() => this.register()} />
+                <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
             </View>
+        </View>
         )
     }
 }
 
-export default RegPage;
+export default compose(
+    FirebaseFactory,
+)(RegPage);
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-        borderWidth: 1,
+
+        backgroundColor: 'skyblue',
+        borderWidth: 2,
         borderColor: 'blue',
         width: '100%',
     },
+    loginInputsContainer: {
+        width: '100%',
+        height: '30%',
+        alignItems: 'center',
+        marginTop: 150,
+        paddingTop: 20,
+        paddingBottom: 30,
+    },
     textInputContainer: {
-        borderWidth: 1,
-        borderColor: 'pink',
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-        width: '70%',
-        height: '10%',
+        borderWidth: 4,
+        borderColor: 'grey',
+        width: '90%',
+        height: '50%',
+        marginBottom: 20,
+        backgroundColor: 'white',
     },
     textInput: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-        borderWidth: 1,
-        borderColor: 'black',
+        color: 'black',
+        fontSize: 30,
         height: '100%',
-    },
+    }
   });
