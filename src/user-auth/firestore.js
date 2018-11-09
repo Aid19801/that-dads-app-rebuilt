@@ -3,7 +3,7 @@ import '@firebase/firestore'
 
 import { firebaseConfig } from './firebase';
 
-export const addToDatabase = () => {
+export const addToDatabase = async (email, password, likes, dislikes, tagline, userName, uid) => {
 
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
@@ -19,8 +19,13 @@ export const addToDatabase = () => {
 
 
     db.collection("users").add({
-        uid: "58578",
-        userName: "falloo",
+        email,
+        password,
+        likes,
+        dislikes,
+        tagline,
+        userName,
+        uid,
     })
     .then(function(docRef) {
         return docRef.id;

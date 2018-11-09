@@ -11,16 +11,29 @@ class RegPage extends Component {
         this.state = {
             email: '',
             password: '',
+            likes: '',
+            dislikes: '',
+            tagline: '',
+            userName: '',
             pageOne: true,
             pageTwo: false,
             pageThree: false,
+
         }
     }
 
     goToPageTwo = () => {
+        this.register();
         this.setState({
             pageOne: false,
             pageTwo: true,
+        })
+    }
+
+    goToPageThree = () => {
+        this.setState({
+            pageTwo: false,
+            pageThree: true,
         })
     }
 
@@ -33,6 +46,30 @@ class RegPage extends Component {
     handlePassword = (password) => {
         this.setState({
             password,
+        })
+    }
+
+    handleLikes = (likes) => {
+        this.setState({
+            likes,
+        })
+    }
+
+    handleDislikes = (dislikes) => {
+        this.setState({
+            dislikes,
+        })
+    }
+
+    handleUserName = (userName) => {
+        this.setState({
+            userName,
+        })
+    }
+
+    handleTagline = (tagline) => {
+        this.setState({
+            tagline,
         })
     }
 
@@ -54,12 +91,21 @@ class RegPage extends Component {
             if (regStatus && regStatus.user.email) {
                 console.log('user registered and the email is: ', regStatus.user.email);
                 this.props.userLoggedIn(regStatus.user.uid);
-                this.props.navigation.navigate('Home');
+
+                // this.props.navigation.navigate('Home');
             }
 
         } catch (error) {
             this.props.userRegFail();
         }
+    }
+
+    saveToDatabase = async () => {
+        const { uid } = this.props;
+        const { email, password, likes,
+            dislikes, tagline, userName } = this.state;
+        const docId = await this.props.addToDatabase(email, password, likes, dislikes, tagline, userName, uid);
+        console.log('AT | docId: ', docId);
     }
 
     render() {
@@ -91,6 +137,51 @@ class RegPage extends Component {
                             onChangeText={this.handlePassword}
                             />
                     </View>
+                    <Button title="Next" onPress={() => this.goToPageTwo()} />
+                </View>
+            }
+
+            { this.state.pageTwo && 
+                <View style={styles.pageContainer}>
+
+                    <View style={styles.singleTextInputContainer}>
+                        <TextInput 
+                            placeholder="likes"
+                            style={styles.textInput}
+                            onChangeText={this.handleLikes}
+                            />
+                    </View>
+
+                    <View style={styles.singleTextInputContainer}>
+                        <TextInput
+                            placeholder="dislikes"
+                            style={styles.textInput}
+                            onChangeText={this.handleDislikes}
+                            />
+                    </View>
+                    <Button title="Next" onPress={() => this.goToPageThree()} />
+                </View>
+            }
+
+            { this.state.pageThree && 
+                <View style={styles.pageContainer}>
+
+                    <View style={styles.singleTextInputContainer}>
+                        <TextInput 
+                            placeholder="userName"
+                            style={styles.textInput}
+                            onChangeText={this.handleUserName}
+                            />
+                    </View>
+
+                    <View style={styles.singleTextInputContainer}>
+                        <TextInput
+                            placeholder="tagline"
+                            style={styles.textInput}
+                            onChangeText={this.handleTagline}
+                            />
+                    </View>
+                    <Button title="Register Me!" onPress={() => this.saveToDatabase()} />
                 </View>
             }
 
@@ -98,10 +189,11 @@ class RegPage extends Component {
 
 
                 { this.props.isLoading && <Text>LOADING... </Text> }
-                <Button title="Next" onPress={() => this.goToPageTwo()} />
-                <Button title="Register Me!" onPress={() => this.register()} />
-                <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
-                <Button title="SignOut" onPress={() => this.props.logout()} />
+
+            </View>
+            <View style={styles.buttonsContainer}>
+                    <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
+                    <Button title="SignOut" onPress={() => this.props.logout()} />
             </View>
         </View>
         )
@@ -132,6 +224,11 @@ export default compose(
 
 
 const styles = StyleSheet.create({
+    buttonsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 200,
+    },
     container: {
         flex: 1,
         flexDirection: 'column',
@@ -171,4 +268,4 @@ const styles = StyleSheet.create({
         fontSize: 30,
         height: '100%',
     }
-  });
+});
