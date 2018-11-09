@@ -52,24 +52,7 @@ class RegPage extends Component {
         }
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('AT | nextProps: ', nextProps.uid);
-    //     if (nextProps.uid !== '') {
-    //         this.props.navigation.navigate('Home');
-    //     }
-    // }
-
     render() {
-
-        if (this.props.isLoading) {
-            return (
-                <View style={styles.container}>
-                    <View style={styles.textInputContainer}>
-                        <Text>LOADING... </Text>
-                    </View>
-                </View>
-            )
-        }
 
         return (
             <View style={styles.container}>
@@ -78,7 +61,7 @@ class RegPage extends Component {
             
             <Text>That Dads App | Register </Text>
 
-            {this.props.regError && <Text style={styles.errorText}>invalid email</Text>}
+            { this.props.regError && <Text style={styles.errorText}>invalid email</Text> }
 
                 <View style={styles.textInputContainer}>
                     <TextInput 
@@ -97,6 +80,7 @@ class RegPage extends Component {
                         />
                 </View>
 
+                { this.props.isLoading && <Text>LOADING... </Text> }
                 <Button title="Register Me!" onPress={() => this.register()} />
                 <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
                 <Button title="SignOut" onPress={() => this.props.logout()} />

@@ -83,7 +83,6 @@ export default loginReducer = (state = initialState, action) => {
             ...state,
             isLoading: true,
             isLoaded: false,
-            regError: true,
         }
         break;
 
@@ -93,6 +92,7 @@ export default loginReducer = (state = initialState, action) => {
             ...state,
             isLoading: false,
             isLoaded: true,
+            regError: true,
         }
         break;
 
