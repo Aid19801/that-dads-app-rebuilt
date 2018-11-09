@@ -1,5 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
+import { addToDatabase } from './firestore';
+
 import { AsyncStorage } from 'react-native';
 export const firebaseConfig = {
     apiKey: "AIzaSyCEfHnVHjKNKQqmGcIeONrHFDFVm3t6wyc",
@@ -69,6 +71,9 @@ export const destroyAsync = async () => {
     }, 1000);
 }
 
+
+
+
 const FirebaseFactory = PlatformSpecificComponent => {
     const Firebase = (props) => {
         const allProps = {
@@ -79,6 +84,7 @@ const FirebaseFactory = PlatformSpecificComponent => {
             saveAsync,
             checkAsync,
             destroyAsync,
+            addToDatabase,
         }
         return <PlatformSpecificComponent {...allProps} />
     }

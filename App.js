@@ -7,17 +7,20 @@ import store from './redux/store';
 import firebase from 'firebase';
 
 import { firebaseConfig } from './src/user-auth/firebase';
-firebase.initializeApp(firebaseConfig);
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const Routes = createStackNavigator({
   RegPage: {
     screen: userAuthScreens.RegPage
   },
-  Home: {
-    screen: appScreens.HomePage,
-  },
   Login: {
     screen: userAuthScreens.LoginPage,
+  },
+  Home: {
+    screen: appScreens.HomePage,
   },
   LoggedOut: {
     screen: userAuthScreens.LogoutPage,

@@ -11,7 +11,17 @@ class RegPage extends Component {
         this.state = {
             email: '',
             password: '',
+            pageOne: true,
+            pageTwo: false,
+            pageThree: false,
         }
+    }
+
+    goToPageTwo = () => {
+        this.setState({
+            pageOne: false,
+            pageTwo: true,
+        })
     }
 
     handleEmail = (email) => {
@@ -57,30 +67,38 @@ class RegPage extends Component {
         return (
             <View style={styles.container}>
 
-            <View style={styles.loginInputsContainer}>
+            <View style={styles.innerContainer}>
             
             <Text>That Dads App | Register </Text>
 
             { this.props.regError && <Text style={styles.errorText}>invalid email</Text> }
 
-                <View style={styles.textInputContainer}>
-                    <TextInput 
-                        placeholder="email"
-                        style={styles.textInput}
-                        onChangeText={this.handleEmail}
-                        />
-                </View>
+            { this.state.pageOne && 
+                <View style={styles.pageContainer}>
+                    <View style={styles.singleTextInputContainer}>
+                        <TextInput 
+                            placeholder="email"
+                            style={styles.textInput}
+                            onChangeText={this.handleEmail}
+                            />
+                    </View>
 
-                <View style={styles.textInputContainer}>
-                    <TextInput
-                        placeholder="password"
-                        style={styles.textInput}
-                        secureTextEntry={false}
-                        onChangeText={this.handlePassword}
-                        />
+                    <View style={styles.singleTextInputContainer}>
+                        <TextInput
+                            placeholder="password"
+                            style={styles.textInput}
+                            secureTextEntry={false}
+                            onChangeText={this.handlePassword}
+                            />
+                    </View>
                 </View>
+            }
+
+            
+
 
                 { this.props.isLoading && <Text>LOADING... </Text> }
+                <Button title="Next" onPress={() => this.goToPageTwo()} />
                 <Button title="Register Me!" onPress={() => this.register()} />
                 <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
                 <Button title="SignOut" onPress={() => this.props.logout()} />
@@ -104,6 +122,7 @@ const mapDispatchToProps = (dispatch) => ({
     userRegFail: () => dispatch({ type: USER_REGISTRATION_FAIL }),
     resetRegPageLoadingState: () => dispatch({ type: RESET_REGPAGE_STATE }),
     userLoggedIn: (uid) => dispatch({ type: USER_LOGIN_SUCCESS, uid }),
+    addToDatabase: () => dispatch({ type: 'ADDING_TO_DATABASE' }),
 });
 
 export default compose(
@@ -127,7 +146,11 @@ const styles = StyleSheet.create({
     errorText: {
         color: 'red',
     },
-    loginInputsContainer: {
+    pageContainer: {
+        width: '100%',
+        alignItems: 'center',
+    },
+    innerContainer: {
         width: '100%',
         height: '30%',
         alignItems: 'center',
@@ -135,7 +158,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 30,
     },
-    textInputContainer: {
+    singleTextInputContainer: {
         borderWidth: 4,
         borderColor: 'grey',
         width: '90%',

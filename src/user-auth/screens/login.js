@@ -128,6 +128,7 @@ class LoginPage extends Component {
                     <Button title="Submit" onPress={this.login} />
                     <Button title="SignOut" onPress={() => this.props.logout()} />
                     <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
+                    <Button title="AddToDB" onPress={() => this.props.addToDatabase()} />
                 </View>
             </View>
         )
