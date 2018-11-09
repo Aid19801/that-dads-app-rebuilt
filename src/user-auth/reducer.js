@@ -1,13 +1,15 @@
 import * as actions from './constants';
 const { LOGIN_PAGE_LOADING, LOGIN_PAGE_LOADED, LOGIN_PAGE_FAIL,
     USER_LOGGING_IN, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL,
-    FIREBASE_LOGIN_STARTED, USER_REGISTERING, REG_PAGE_LOADED, REG_PAGE_LOADING } = actions;
+    FIREBASE_LOGIN_STARTED, USER_REGISTERING, 
+    USER_REGISTRATION_FAIL, RESET_REGPAGE_STATE, REG_PAGE_LOADED, REG_PAGE_LOADING } = actions;
 
 const initialState = {
     isLoading: false,
     isLoaded: false,
     error: null,
     uid: null,
+    regError: false,
 }
 
 export default loginReducer = (state = initialState, action) => {
@@ -81,6 +83,24 @@ export default loginReducer = (state = initialState, action) => {
             ...state,
             isLoading: true,
             isLoaded: false,
+            regError: true,
+        }
+        break;
+
+        case USER_REGISTRATION_FAIL:
+        console.log('USER_REGISTRATION_FAIL');
+        return {
+            ...state,
+            isLoading: false,
+            isLoaded: true,
+        }
+        break;
+
+        case RESET_REGPAGE_STATE:
+        console.log('RESET_REGPAGE_STATE');
+        return {
+            ...state,
+            regError: false,
         }
         break;
 

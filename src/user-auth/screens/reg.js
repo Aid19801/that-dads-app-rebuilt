@@ -3,7 +3,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import FirebaseFactory from '../firebase';
-import { REG_PAGE_LOADED, REG_PAGE_LOADING, USER_REGISTERING, USER_LOGIN_SUCCESS } from '../constants';
+import { REG_PAGE_LOADED, REG_PAGE_LOADING, USER_REGISTERING, USER_REGISTRATION_FAIL, RESET_REGPAGE_STATE, USER_LOGIN_SUCCESS } from '../constants';
+
 class RegPage extends Component {
     constructor() {
         super();
@@ -25,6 +26,14 @@ class RegPage extends Component {
         })
     }
 
+    componentWillMount() {
+        this.props.pageLoading();
+    }
+
+    componentDidMount() {
+        this.props.pageLoaded();
+    }
+
     register = async () => {
         const { email, password } = this.state;
         this.props.userRegistering();
@@ -39,9 +48,16 @@ class RegPage extends Component {
             }
 
         } catch (error) {
-            console.log('reg.js | register() catch : ', error);
+            this.props.userRegFail();
         }
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     console.log('AT | nextProps: ', nextProps.uid);
+    //     if (nextProps.uid !== '') {
+    //         this.props.navigation.navigate('Home');
+    //     }
+    // }
 
     render() {
 
@@ -54,12 +70,15 @@ class RegPage extends Component {
                 </View>
             )
         }
+
         return (
             <View style={styles.container}>
 
             <View style={styles.loginInputsContainer}>
             
             <Text>That Dads App | Register </Text>
+
+            {this.props.regError && <Text style={styles.errorText}>invalid email</Text>}
 
                 <View style={styles.textInputContainer}>
                     <TextInput 
@@ -80,6 +99,7 @@ class RegPage extends Component {
 
                 <Button title="Register Me!" onPress={() => this.register()} />
                 <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
+                <Button title="SignOut" onPress={() => this.props.logout()} />
             </View>
         </View>
         )
@@ -90,12 +110,15 @@ const mapStateToProps = (state) => ({
     isLoading: state.login.isLoading,
     isLoaded: state.login.isLoaded,
     uid: state.login.uid,
+    regError: state.login.regError,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: REG_PAGE_LOADING }),
     pageLoaded: () => dispatch({ type: REG_PAGE_LOADED }),
     userRegistering: () => dispatch({ type: USER_REGISTERING }),
+    userRegFail: () => dispatch({ type: USER_REGISTRATION_FAIL }),
+    resetRegPageLoadingState: () => dispatch({ type: RESET_REGPAGE_STATE }),
     userLoggedIn: (uid) => dispatch({ type: USER_LOGIN_SUCCESS, uid }),
 });
 
@@ -116,6 +139,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'blue',
         width: '100%',
+    },
+    errorText: {
+        color: 'red',
     },
     loginInputsContainer: {
         width: '100%',
