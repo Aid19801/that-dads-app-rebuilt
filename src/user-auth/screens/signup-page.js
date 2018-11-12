@@ -13,9 +13,11 @@ class SignUpPage extends React.Component {
         this.Firebase = new Firebase();
     }
 
-    signUpAndGoToLogin = (e) => {
+    signUpAndGoToLogin = () => {
         const { email, password } = this.state;
+        this.props.signUp(email, password);
     }
+
     componentWillMount() {
         this.props.pageLoading();
     }
@@ -36,7 +38,7 @@ class SignUpPage extends React.Component {
                 <View style={styles.textInputContainer}>
                     <TextInput onChangeText={(password) => this.setState({ password })} placeholder="password" />
                 </View>
-            <Button />
+                <Button title="Sign Up!" onPress={this.signUpAndGoToLogin}/>
             </View>
         )
     }
@@ -61,12 +63,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
     isLoading: state.signup.isLoading,
-    // isLoggedIn: state.login.isLoggedIn,
+    isLoggedIn: state.login.isLoggedIn,
 })
 
 const mapDispatchToProps = dispatch => ({
     pageLoading: () => dispatch({ type: 'LOGIN_PAGE_LOADING' }),
     pageLoaded: () => dispatch({ type: 'LOGIN_PAGE_LOADED' }),
+    signUp: (email, password) => dispatch({ type: 'USER_CLICKED_SIGNUP', email, password }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);

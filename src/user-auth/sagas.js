@@ -4,7 +4,7 @@ import Firebase from './firebase-class';
 let FirebaseClass = new Firebase();
 
 export function* watcherUserSignup() {
-    yield takeLatest('USER_CLICKED_SIGNUP', workerUserLogin);
+    yield takeLatest('USER_CLICKED_SIGNUP', workerUserSignup);
 }
 
 export function* workerUserSignup(actionObject) {
@@ -13,11 +13,17 @@ export function* workerUserSignup(actionObject) {
     
     try {
         const user = yield call(FirebaseClass.registerUser, email, password);
-        console.log('user returned from firebase is: ', user);
-        // yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
-        // yield put({ type: 'USER_LOGGED_IN', user: 'blah' });
+        if (user.message) {
+            yield put({ type: 'USER_SIGNUP_FAIL', error });
+        }
+
+        if (user.uid) {
+            yield put({ type: 'USER_SIGNUP_SUCCESS', uid: user.uid });
+            yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
+            yield put({ type: 'USER_LOGGED_IN' });
+        }
     } catch (error) {
-        yield put({ type: 'USER_LOGIN_FAIL', error });
+        yield put({ type: 'USER_SIGNUP_FAIL', error });
     }
 }
 
@@ -39,5 +45,5 @@ function* workerUserLogin(actionObject) {
     }
 }
 
-
+// adrian@ade1.com
 // how do you set async storage inside a saga?

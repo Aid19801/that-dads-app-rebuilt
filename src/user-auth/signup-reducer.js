@@ -32,6 +32,24 @@ export default signUpReducer = (state = initialState, action) => {
             }
             break;
 
+        case 'USER_SIGNUP_SUCCESS':
+        console.log('USER_CLICKED_SIGNUP: ', action);
+            return {
+                ...state,
+                isLoading: false,
+                uid: action.uid
+            }
+            break;
+
+        case 'USER_SIGNUP_FAIL':
+        console.log('USER_CLICKED_SIGNUP: ', action);
+            return {
+                ...state,
+                isLoading: false,
+                error: action.error
+            }
+            break;
+
         default:
         return state;
     }
