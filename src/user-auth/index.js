@@ -1,13 +1,9 @@
-import LoginPage from './screens/login';
-import LoginError from './screens/error';
-import LogoutPage from './screens/logout';
-import RegPage from './screens/reg';
+import LoginPage from './screens/login-page';
+import SignUpPage from './screens/signup-page'
 
 export {
     LoginPage,
-    LogoutPage,
-    LoginError,
-    RegPage,
+    SignUpPage,
 }
 // export { default } from './screens/error';
 // export { default } from './screens/logout';

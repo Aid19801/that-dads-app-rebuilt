@@ -1,22 +1,23 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import * as actions from './constants';
-import { saveAsync } from './firebase';
+import { AsyncStorage } from 'react-native';
+import Firebase from './firebase-class';
+let FirebaseClass = new Firebase();
 
-export function* watcherUserLoggingIn() {
-    yield takeLatest(actions.USER_LOGGING_IN, workerUserLoggingIn);
+export function* watcherUserLogin() {
+    yield takeLatest('USER_CLICKED_LOGIN', workerUserLogin);
 }
 
-export function* workerUserLoggingIn() {
-    yield put({ type: actions.FIREBASE_LOGIN_STARTED });
-}
-
-export function* watcherUserLogInSuccess() {
-    yield takeLatest(actions.USER_LOGIN_SUCCESS, workerUserLogInSuccess);
-}
-
-export function* workerUserLogInSuccess(actionObj) {
-    console.log('AT | actionObj: ', actionObj);
-    yield put({ type: actions.SAVING_UID_TO_ASYNC_STORAGE });
-    yield call(saveAsync, actionObj.uid);
+function* workerUserLogin(actionObject) {
+    const { email, password } = actionObject;
+    console.log('actionObject ', actionObject);
     
+    try {
+        yield call(FirebaseClass.login, email, password);
+        yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
+        yield put({ type: 'USER_LOGGED_IN' });
+    } catch (error) {
+        yield put({ type: 'USER_LOGIN_FAIL', error });
+    }
 }
+
+// how do you set async storage inside a saga?

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { View, Button, Text, StyleSheet } from 'react-native';
-import { HOMEPAGE_LOADING, HOMEPAGE_LOADED } from './constants';
-import FirebaseFactory from '../../user-auth/firebase';
 
 class HomePage extends Component {
     
@@ -12,11 +9,6 @@ class HomePage extends Component {
         this.state = {}
     }
 
-
-    logout() {
-        this.props.logout();
-        this.props.navigation.navigate('LoggedOut');
-    }
     componentWillMount = () => {
         this.props.pageLoading();
     }
@@ -26,12 +18,7 @@ class HomePage extends Component {
     }
     render() {
 
-        if (!this.props.uid) {
-            this.props.navigation.navigate('Login');
-        }
-
-
-        console.log('AT | props: ', this.props);
+        console.log('Homepage props: ', this.props);
 
         return (
             <View style={styles.container}>
@@ -40,30 +27,25 @@ class HomePage extends Component {
                 
                     <Text>That Dads App | HOMEPAGE!</Text>
                     
-                    <Button title="SignOut" onPress={() => this.logout()} />
-                    <Button title="DestroyAsync" onPress={() => this.props.destroyAsync()} />
                 </View>
             </View>
         )
     }
 }
 
-const mapStateToProps = (state) => ({
-    isLoading: state.login.isLoading,
-    isLoaded: state.login.isLoaded,
-    error: state.login.error,
-    uid: state.login.uid,
-});
+// const mapStateToProps = (state) => ({
+//     isLoading: state.login.isLoading,
+//     isLoaded: state.login.isLoaded,
+//     error: state.login.error,
+//     uid: state.login.uid,
+// });
 
 const mapDispatchToProps = (dispatch) => ({
-    pageLoading: () => dispatch({ type: HOMEPAGE_LOADING }),
-    pageLoaded: () => dispatch({ type: HOMEPAGE_LOADED }),
+    pageLoading: () => dispatch({ type: 'HOMEPAGE_LOADING' }),
+    pageLoaded: () => dispatch({ type: 'HOMEPAGE_LOADED' }),
 });
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    FirebaseFactory,
-)(HomePage);
+export default connect(null, mapDispatchToProps)(HomePage);
 
 const styles = StyleSheet.create({
     container: {
