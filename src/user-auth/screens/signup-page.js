@@ -13,12 +13,15 @@ class SignUpPage extends React.Component {
         this.Firebase = new Firebase();
     }
 
+    signUpAndGoToLogin = (e) => {
+        const { email, password } = this.state;
+    }
     componentWillMount() {
-        // this.props.pageLoading();
+        this.props.pageLoading();
     }
 
     componentDidMount() {
-        // this.props.pageLoaded();
+        this.props.pageLoaded();
     }
     render() {
         const { email, password } = this.state;
@@ -34,7 +37,6 @@ class SignUpPage extends React.Component {
                     <TextInput onChangeText={(password) => this.setState({ password })} placeholder="password" />
                 </View>
 
-                <Button title="Go To Login..." onPress={() => navigation.navigate('SignIn')} />
             </View>
         )
     }
@@ -57,15 +59,14 @@ const styles = StyleSheet.create({
     },
 })
 
-// const mapStateToProps = state => ({
-//     isLoading: state.login.isLoading,
-//     isLoggedIn: state.login.isLoggedIn,
-// })
+const mapStateToProps = state => ({
+    isLoading: state.signup.isLoading,
+    // isLoggedIn: state.login.isLoggedIn,
+})
 
-// const mapDispatchToProps = dispatch => ({
-//     pageLoading: () => dispatch({ type: 'LOGIN_PAGE_LOADING' }),
-//     pageLoaded: () => dispatch({ type: 'LOGIN_PAGE_LOADED' }),
-//     userLogin: (email, password) => dispatch({ type: 'USER_CLICKED_LOGIN', email, password }),
-// })
+const mapDispatchToProps = dispatch => ({
+    pageLoading: () => dispatch({ type: 'LOGIN_PAGE_LOADING' }),
+    pageLoaded: () => dispatch({ type: 'LOGIN_PAGE_LOADED' }),
+})
 
-export default connect(null, null)(SignUpPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);

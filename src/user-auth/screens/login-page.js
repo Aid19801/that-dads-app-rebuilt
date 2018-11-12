@@ -28,6 +28,10 @@ class LoginPage extends React.Component {
             return <Text>LOADING...</Text>
         }
 
+        if (isLoggedIn) {
+            this.props.navigation.navigate('Home');
+        }
+
         return (
             <View style={styles.container}>
 

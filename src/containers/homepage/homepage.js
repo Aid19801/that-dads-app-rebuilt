@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Button, Text, StyleSheet } from 'react-native';
+import { AsyncStorage, View, Button, Text, StyleSheet } from 'react-native';
 
 class HomePage extends Component {
     
@@ -26,7 +26,7 @@ class HomePage extends Component {
                 <View style={styles.loginInputsContainer}>
                 
                     <Text>That Dads App | HOMEPAGE!</Text>
-                    
+                    <Button title="kill async" onPress={() => AsyncStorage.setItem('isLoggedIn', 'false')} />
                 </View>
             </View>
         )
