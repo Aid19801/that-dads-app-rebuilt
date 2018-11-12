@@ -36,7 +36,7 @@ class SignUpPage extends React.Component {
                 <View style={styles.textInputContainer}>
                     <TextInput onChangeText={(password) => this.setState({ password })} placeholder="password" />
                 </View>
-
+            <Button />
             </View>
         )
     }
