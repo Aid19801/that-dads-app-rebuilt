@@ -27,18 +27,18 @@ class SignUpPage extends React.Component {
     }
     render() {
         const { email, password } = this.state;
-        const { navigation } = this.props;
+        const { navigation, isError } = this.props;
 
         return (
             <View style={styles.container}>
-
                 <View style={styles.textInputContainer}>
-                    <TextInput onChangeText={(email) => this.setState({ email })} placeholder="email" />
+                    <TextInput style={styles.textInput} onChangeText={(email) => this.setState({ email })} placeholder="email" />
                 </View>
                 <View style={styles.textInputContainer}>
-                    <TextInput onChangeText={(password) => this.setState({ password })} placeholder="password" />
+                    <TextInput style={styles.textInput} onChangeText={(password) => this.setState({ password })} placeholder="password" />
                 </View>
                 <Button title="Sign Up!" onPress={this.signUpAndGoToLogin}/>
+                { isError && <Text>Something Went Wrong </Text> }
             </View>
         )
     }
@@ -53,22 +53,28 @@ const styles = StyleSheet.create({
         marginBottom: 290, // pushes it up from the bottom. 2/3
     },
     textInputContainer: {
-        borderColor: 'black',
+        borderColor: 'grey',
         borderWidth: 4,
+        borderRadius: 30,
         width: '90%',
-        height: 30,
+        height: 60,
         marginBottom: 10,
     },
+    textInput: {
+        fontSize: 30,
+        marginLeft: 10,
+    }
 })
 
 const mapStateToProps = state => ({
     isLoading: state.signup.isLoading,
     isLoggedIn: state.login.isLoggedIn,
+    isError: state.signup.isError,
 })
 
 const mapDispatchToProps = dispatch => ({
-    pageLoading: () => dispatch({ type: 'LOGIN_PAGE_LOADING' }),
-    pageLoaded: () => dispatch({ type: 'LOGIN_PAGE_LOADED' }),
+    pageLoading: () => dispatch({ type: 'SIGNUP_PAGE_LOADING' }),
+    pageLoaded: () => dispatch({ type: 'SIGNUP_PAGE_LOADED' }),
     signUp: (email, password) => dispatch({ type: 'USER_CLICKED_SIGNUP', email, password }),
 })
 

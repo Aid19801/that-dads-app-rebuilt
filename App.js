@@ -1,6 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { AsyncStorage } from 'react-native';
 import store from './redux/store';
 import firebase from 'firebase';
 

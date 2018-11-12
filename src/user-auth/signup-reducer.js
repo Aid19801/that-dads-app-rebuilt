@@ -2,6 +2,7 @@ const initialState = {
     isLoading: false,
     email: '',
     password: '',
+    isError: false,
 }
 
 export default signUpReducer = (state = initialState, action) => {
@@ -33,7 +34,7 @@ export default signUpReducer = (state = initialState, action) => {
             break;
 
         case 'USER_SIGNUP_SUCCESS':
-        console.log('USER_CLICKED_SIGNUP: ', action);
+        console.log('USER_SIGNUP_SUCCESS: ', action);
             return {
                 ...state,
                 isLoading: false,
@@ -42,11 +43,11 @@ export default signUpReducer = (state = initialState, action) => {
             break;
 
         case 'USER_SIGNUP_FAIL':
-        console.log('USER_CLICKED_SIGNUP: ', action);
+        console.log('USER_SIGNUP_FAIL: ', action);
             return {
                 ...state,
                 isLoading: false,
-                error: action.error
+                isError: true,
             }
             break;
 

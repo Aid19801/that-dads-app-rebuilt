@@ -22,7 +22,7 @@ class LoginPage extends React.Component {
     }
     render() {
         const { email, password } = this.state;
-        const { isLoading, isLoggedIn } = this.props;
+        const { isLoading, isLoggedIn, navigation } = this.props;
 
         if (isLoading) {
             return <Text>LOADING...</Text>
@@ -36,13 +36,14 @@ class LoginPage extends React.Component {
             <View style={styles.container}>
 
                 <View style={styles.textInputContainer}>
-                    <TextInput onChangeText={(email) => this.setState({ email })} placeholder="email" />
+                    <TextInput style={styles.textInput} onChangeText={(email) => this.setState({ email })} placeholder="email" />
                 </View>
                 <View style={styles.textInputContainer}>
-                    <TextInput onChangeText={(password) => this.setState({ password })} placeholder="password" />
+                    <TextInput style={styles.textInput} onChangeText={(password) => this.setState({ password })} placeholder="password" />
                 </View>
 
-                <Button title="login" onPress={() => this.props.userLogin(email, password)} />
+                <Button title="sign-in" onPress={() => this.props.userLogin(email, password)} />
+                <Button title="sign-up" onPress={() => navigation.navigate('SignUp') }/>
             </View>
         )
     }
@@ -57,12 +58,17 @@ const styles = StyleSheet.create({
         marginBottom: 290, // pushes it up from the bottom. 2/3
     },
     textInputContainer: {
-        borderColor: 'black',
+        borderColor: 'grey',
         borderWidth: 4,
+        borderRadius: 30,
         width: '90%',
-        height: 30,
+        height: 60,
         marginBottom: 10,
     },
+    textInput: {
+        fontSize: 30,
+        marginLeft: 10,
+    }
 })
 
 const mapStateToProps = state => ({

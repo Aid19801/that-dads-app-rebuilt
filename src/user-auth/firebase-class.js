@@ -79,7 +79,7 @@ class Firebase {
     // *USER AUTHENTICATION* reading, writing email/pw accounts
     async registerUser(email, password) {
         try {
-            await firebase.auth().createUserWithEmailAndPassword(email, password);
+            const user = await firebase.auth().createUserWithEmailAndPassword(email, password);
             console.log('user created created in Firebase user auth: ', user);
             return user;
         } catch (error) {

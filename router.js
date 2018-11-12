@@ -23,19 +23,18 @@ export const isSignedIn = () => {
 };
 
 export const SignedOut = createStackNavigator({
-    SignUp: {
-      screen: SignUp,
-      navigationOptions: {
-        title: "Sign Up",
-
-      }
-    },
-    SignIn: {
-      screen: LoginPage,
-      navigationOptions: {
-        title: "Sign In",
-      }
+  SignIn: {
+    screen: LoginPage,
+    navigationOptions: {
+      title: "Sign In",
     }
+    },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      title: "Sign Up",
+    }
+  },
   });
 
   export const SignedIn = createStackNavigator({
