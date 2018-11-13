@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AsyncStorage, View, Button, Text, StyleSheet } from 'react-native';
+import Footer from '../../components/footer';
 
 class HomePage extends Component {
     
@@ -16,9 +17,8 @@ class HomePage extends Component {
     componentDidMount = () => {
         this.props.pageLoaded();
     }
-    render() {
 
-        console.log('Homepage props: ', this.props);
+    render() {
 
         return (
             <View style={styles.container}>
@@ -28,24 +28,26 @@ class HomePage extends Component {
                     <Text>That Dads App | HOMEPAGE!</Text>
                     <Button title="kill async" onPress={() => AsyncStorage.setItem('isLoggedIn', 'false')} />
                 </View>
+
+                <View style={styles.nav}>
+                    <Footer navigation={this.props.navigation} />
+                </View>
             </View>
         )
     }
 }
 
-// const mapStateToProps = (state) => ({
-//     isLoading: state.login.isLoading,
-//     isLoaded: state.login.isLoaded,
-//     error: state.login.error,
-//     uid: state.login.uid,
-// });
+const mapStateToProps = (state) => ({
+    isLoading: state.login.isLoading,
+    isLoaded: state.login.isLoaded,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'HOMEPAGE_LOADING' }),
     pageLoaded: () => dispatch({ type: 'HOMEPAGE_LOADED' }),
 });
 
-export default connect(null, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
 
 const styles = StyleSheet.create({
     container: {
@@ -79,5 +81,12 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 30,
         height: '100%',
+    },
+    nav: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '11%',
+        backgroundColor: 'skyblue',
     }
   });

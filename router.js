@@ -1,12 +1,13 @@
 import {
     createStackNavigator,
     createSwitchNavigator,
+    createBottomTabNavigator,
   } from "react-navigation";
-
+import React from 'react';
 import SignUp from './src/user-auth/screens/signup-page';
 import LoginPage from './src/user-auth/screens/login-page';
 import { HomePage } from './src/containers';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Text, View } from 'react-native';
 
 export const isSignedIn = () => {
   return new Promise((resolve, reject) => {
@@ -37,13 +38,26 @@ export const SignedOut = createStackNavigator({
   },
   });
 
-  export const SignedIn = createStackNavigator({
+class OtherScreen extends React.Component{
+  render(){
+      return(
+          <View>
+              <Text>
+                  Hello this is working!
+              </Text>
+          </View>
+      );
+  }
+}
+
+  export const SignedIn = createBottomTabNavigator({
     Home: {
       screen: HomePage,
       navigationOptions: {
         title: "Home Page",
       }
     },
+    Welcome: { screen: OtherScreen },
   });
 
   export const createRootNavigator = (signedIn = false) => {
