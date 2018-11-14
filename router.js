@@ -6,10 +6,9 @@ import {
     BottomTabBar,
   } from "react-navigation";
 import SignUp from './src/user-auth/screens/signup-page';
-import LoginPage from './src/user-auth/screens/login-page';
-import { HomePage, PlaceHolder } from './src/containers';
-import { AsyncStorage, Text, View } from 'react-native';
-import { black, white } from 'ansi-colors';
+import SignInPage from './src/user-auth/screens/signin-page';
+import { HomePage, PlaceHolder, LocalPage } from './src/containers';
+import { AsyncStorage } from 'react-native';
 
 export const isSignedIn = () => {
   return new Promise((resolve, reject) => {
@@ -27,7 +26,7 @@ export const isSignedIn = () => {
 
 export const SignedOut = createStackNavigator({
   SignIn: {
-    screen: LoginPage,
+    screen: SignInPage,
     navigationOptions: {
       title: "Sign In",
     }
@@ -43,7 +42,7 @@ export const SignedOut = createStackNavigator({
 export const SignedIn = createBottomTabNavigator(
   {
   Home: { screen: HomePage},
-  News: { screen: PlaceHolder },
+  Local: { screen: LocalPage },
   Chat: { screen: PlaceHolder },
   Profile: { screen: PlaceHolder },
   },

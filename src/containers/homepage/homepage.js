@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ContentBox } from '../../components';
 import mocks from './mocks.js';
-import { FlatList, AsyncStorage, View, Button, Text, StyleSheet } from 'react-native';
+import { FlatList, AsyncStorage, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
 
 class HomePage extends Component {
     
@@ -21,18 +21,18 @@ class HomePage extends Component {
 
     render() {
 
-        console.log('this props yo', this.props);
+        console.log('homepage props:', this.props);
 
         if (this.props.isLoading) {
 
             return (
                 <View style={styles.container}>
 
-                    <View style={styles.flatListContainer}>
-                        <Text>Loading...</Text>
+                    <View style={styles.loading}>
+                        <ActivityIndicator size="large" color="#0000ff" />
                     </View>
 
-            </View>
+                </View>
             )
 
         }
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         borderColor: 'blue',
         width: '100%',
     },
-    heading: {
+    loading: {
         marginTop: 100,
     },
     flatListContainer: {

@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { LogoImage } from '../../components';
 import Firebase from '../firebase-class';
 
-class LoginPage extends React.Component {
+
+class SignInPage extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -35,6 +37,10 @@ class LoginPage extends React.Component {
         return (
             <View style={styles.container}>
 
+                <Text style={styles.mainTitle}>#ThatDadsApp</Text>
+
+                <LogoImage />
+
                 <View style={styles.textInputContainer}>
                     <TextInput style={styles.textInput} onChangeText={(email) => this.setState({ email })} placeholder="email" />
                 </View>
@@ -42,8 +48,10 @@ class LoginPage extends React.Component {
                     <TextInput style={styles.textInput} onChangeText={(password) => this.setState({ password })} placeholder="password" />
                 </View>
 
-                <Button title="sign-in" onPress={() => this.props.userLogin(email, password)} />
-                <Button title="sign-up" onPress={() => navigation.navigate('SignUp') }/>
+                <View style={styles.buttonsContainer}>
+                    <Button color="darkblue" title="sign-in" onPress={() => this.props.userLogin(email, password)} />
+                    <Button color="darkblue" title="sign-up" onPress={() => navigation.navigate('SignUp') }/>
+                </View>
             </View>
         )
     }
@@ -55,7 +63,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        marginBottom: 290, // pushes it up from the bottom. 2/3
+        marginBottom: 200, // pushes it up from the bottom. 2/3
+    },
+    mainTitle: {
+        fontSize: 30,
+        marginTop: 60,
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        marginTop: 20,
     },
     textInputContainer: {
         borderColor: 'grey',
@@ -82,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
     userLogin: (email, password) => dispatch({ type: 'USER_CLICKED_LOGIN', email, password }),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
