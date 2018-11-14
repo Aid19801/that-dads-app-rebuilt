@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AsyncStorage, View, Button, Text, StyleSheet } from 'react-native';
-import Footer from '../../components/footer';
+import { ContentBox } from '../../components';
+import mocks from './mocks.js';
+import { FlatList, AsyncStorage, View, Button, Text, StyleSheet } from 'react-native';
 
 class HomePage extends Component {
     
@@ -20,26 +21,51 @@ class HomePage extends Component {
 
     render() {
 
+        console.log('this props yo', this.props);
+
+        if (this.props.isLoading) {
+
+            return (
+                <View style={styles.container}>
+
+                    <View style={styles.flatListContainer}>
+                        <Text>Loading...</Text>
+                    </View>
+
+            </View>
+            )
+
+        }
+
         return (
             <View style={styles.container}>
 
-                <View style={styles.loginInputsContainer}>
+                <View style={styles.flatListContainer}>
+                    <FlatList
+                        data={this.props.stories}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) =>
+                            <ContentBox
+                                title={item.headline}
+                                synopsis={item.blurb}
+                                source={item.org}
+                                url={item.url}
+                                imgUrl={item.imgUrl}
+                            /> }
+                    />
+                </View>
                 
-                    <Text>That Dads App | HOMEPAGE!</Text>
-                    <Button title="kill async" onPress={() => AsyncStorage.setItem('isLoggedIn', 'false')} />
-                </View>
+                <Button title="kill async" onPress={() => AsyncStorage.setItem('isLoggedIn', 'false')} />
 
-                <View style={styles.nav}>
-                    <Footer navigation={this.props.navigation} />
-                </View>
             </View>
         )
     }
 }
 
 const mapStateToProps = (state) => ({
-    isLoading: state.login.isLoading,
-    isLoaded: state.login.isLoaded,
+    isLoading: state.homepage.isLoading,
+    isLoaded: state.homepage.isLoaded,
+    stories: state.homepage.stories,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -61,32 +87,14 @@ const styles = StyleSheet.create({
         borderColor: 'blue',
         width: '100%',
     },
-    loginInputsContainer: {
-        width: '100%',
-        height: '30%',
-        alignItems: 'center',
-        marginTop: 150,
-        paddingTop: 20,
-        paddingBottom: 30,
+    heading: {
+        marginTop: 100,
     },
-    textInputContainer: {
-        borderWidth: 4,
+    flatListContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        width: '95%',
         borderColor: 'grey',
-        width: '90%',
-        height: '50%',
-        marginBottom: 20,
-        backgroundColor: 'white',
-    },
-    textInput: {
-        color: 'black',
-        fontSize: 30,
-        height: '100%',
-    },
-    nav: {
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '11%',
-        backgroundColor: 'skyblue',
     }
   });

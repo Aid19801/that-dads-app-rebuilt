@@ -1,13 +1,15 @@
+import React from 'react';
 import {
     createStackNavigator,
     createSwitchNavigator,
     createBottomTabNavigator,
+    BottomTabBar,
   } from "react-navigation";
-import React from 'react';
 import SignUp from './src/user-auth/screens/signup-page';
 import LoginPage from './src/user-auth/screens/login-page';
-import { HomePage } from './src/containers';
+import { HomePage, PlaceHolder } from './src/containers';
 import { AsyncStorage, Text, View } from 'react-native';
+import { black, white } from 'ansi-colors';
 
 export const isSignedIn = () => {
   return new Promise((resolve, reject) => {
@@ -38,27 +40,33 @@ export const SignedOut = createStackNavigator({
   },
   });
 
-class OtherScreen extends React.Component{
-  render(){
-      return(
-          <View>
-              <Text>
-                  Hello this is working!
-              </Text>
-          </View>
-      );
-  }
-}
-
-  export const SignedIn = createBottomTabNavigator({
-    Home: {
-      screen: HomePage,
-      navigationOptions: {
-        title: "Home Page",
+export const SignedIn = createBottomTabNavigator(
+  {
+  Home: { screen: HomePage},
+  News: { screen: PlaceHolder },
+  Chat: { screen: PlaceHolder },
+  Profile: { screen: PlaceHolder },
+  },
+  {
+    tabBarOptions: {
+      activeBackgroundColor: '#5B5494',
+      inactiveBackgroundColor: '#837EB1',
+      style: {
+        borderColor: 'black',
+        borderWidth: 1,
+        // flex: 1,
+      },
+      labelStyle: {
+        fontSize: 30,
+        color: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+        
       }
-    },
-    Welcome: { screen: OtherScreen },
-  });
+    }
+  }
+);
+
 
   export const createRootNavigator = (signedIn = false) => {
     return createSwitchNavigator(
