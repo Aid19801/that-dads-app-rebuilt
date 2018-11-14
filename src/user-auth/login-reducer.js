@@ -1,51 +1,54 @@
-import * as actions from './constants';
-
 const initialState = {
     isLoading: false,
-    isLoaded: false,
+    email: '',
+    password: '',
     error: null,
+    isLoggedIn: false,
 }
 
-export default homepageReducer = (state = initialState, action) => {
+export default loginReducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'HOMEPAGE_LOADING':
-        console.log('HOMEPAGE_LOADING');
+        case 'LOGIN_PAGE_LOADING':
+        console.log('LOGIN_PAGE_LOADING');
         return {
             ...state,
             isLoading: true,
         }
         break;
 
-        case 'HOMEPAGE_LOADED':
-        console.log('HOMEPAGE_LOADED');
+        case 'LOGIN_PAGE_LOADED':
+        console.log('LOGIN_PAGE_LOADED');
             return {
                 ...state,
                 isLoading: false,
             }
             break;
 
-        case 'NEWS_LOADING':
-        console.log('NEWS_LOADING');
+        case 'USER_CLICKED_LOGIN':
+        console.log('USER_CLICKED_LOGIN');
             return {
                 ...state,
                 isLoading: true,
+                email: action.email,
+                password: action.password,
             }
             break;
 
-        case 'NEWS_LOADED':
-        console.log('NEWS_LOADED: ', action.stories);
+        case 'USER_LOGGED_IN':
+        console.log('USER_LOGGED_IN');
             return {
                 ...state,
                 isLoading: false,
-                stories: action.stories,
+                isLoggedIn: true,
             }
             break;
 
-        case 'NEWS_FAILED':
-        console.log('NEWS_FAILED: ');
+        case 'USER_LOGIN_FAIL':
+        console.log('USER_LOGIN_FAIL', action.error);
             return {
                 ...state,
                 isLoading: false,
+                error: action.error
             }
             break;
 

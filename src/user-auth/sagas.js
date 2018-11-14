@@ -1,22 +1,45 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import * as actions from './constants';
-import { saveAsync } from './firebase';
+import { AsyncStorage } from 'react-native';
+import Firebase from './firebase-class';
+let FirebaseClass = new Firebase();
 
-export function* watcherUserLoggingIn() {
-    yield takeLatest(actions.USER_LOGGING_IN, workerUserLoggingIn);
+export function* watcherUserSignup() {
+    yield takeLatest('USER_CLICKED_SIGNUP', workerUserSignup);
 }
 
-export function* workerUserLoggingIn() {
-    yield put({ type: actions.FIREBASE_LOGIN_STARTED });
-}
-
-export function* watcherUserLogInSuccess() {
-    yield takeLatest(actions.USER_LOGIN_SUCCESS, workerUserLogInSuccess);
-}
-
-export function* workerUserLogInSuccess(actionObj) {
-    console.log('AT | actionObj: ', actionObj);
-    yield put({ type: actions.SAVING_UID_TO_ASYNC_STORAGE });
-    yield call(saveAsync, actionObj.uid);
+export function* workerUserSignup(actionObject) {
+    const { email, password } = actionObject;
+    console.log('workerUserSignup actionObject ', actionObject);
     
+    try {
+        const user = yield call(FirebaseClass.registerUser, email, password);
+        if (user.user.uid) {
+            yield put({ type: 'USER_SIGNUP_SUCCESS', uid: user.user.uid });
+            yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
+            yield put({ type: 'USER_LOGGED_IN' });
+        }
+    } catch (error) {
+        yield put({ type: 'USER_SIGNUP_FAIL', error });
+    }
 }
+
+
+export function* watcherUserLogin() {
+    yield takeLatest('USER_CLICKED_LOGIN', workerUserLogin);
+}
+
+function* workerUserLogin(actionObject) {
+    const { email, password } = actionObject;
+    console.log('actionObject ', actionObject);
+    
+    try {
+        yield call(FirebaseClass.login, email, password);
+        yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
+        yield put({ type: 'USER_LOGGED_IN' });
+    } catch (error) {
+        yield put({ type: 'USER_LOGIN_FAIL', error });
+    }
+}
+
+// adrian@ade1.com
+// how do you set async storage inside a saga?

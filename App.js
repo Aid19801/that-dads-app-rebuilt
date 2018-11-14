@@ -1,48 +1,47 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStackNavigator } from 'react-navigation';
-import * as userAuthScreens from './src/user-auth';
-import * as appScreens from './src/containers';
 import store from './redux/store';
 import firebase from 'firebase';
 
 import { firebaseConfig } from './src/user-auth/firebase';
+import { createRootNavigator, isSignedIn } from './router';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-const Routes = createStackNavigator({
-  RegPage: {
-    screen: userAuthScreens.RegPage
-  },
-  Login: {
-    screen: userAuthScreens.LoginPage,
-  },
-  Home: {
-    screen: appScreens.HomePage,
-  },
-  LoggedOut: {
-    screen: userAuthScreens.LogoutPage,
-  },
-  LoginError: {
-    screen: userAuthScreens.LoginError,
-  },
-}, {
-  headerMode: 'none',
-  navigationOptions: {
-    headerVisible: false,
+
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      signedIn: false,
+      checkedSignIn: false,
+    }
   }
- });
 
+  componentDidMount() {
+    isSignedIn()
+      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
+      .catch(err => console.log('err: ', err))
+  }
 
-const App = () => (
-  <Provider store={store}>
-    <Routes />
-  </Provider>
-);
+  render() {
 
+    const { checkedSignIn, signedIn } = this.state;
+
+    if (!checkedSignIn) {
+      return null;
+    }
+    
+    const Layout = createRootNavigator(signedIn);
+
+    return (
+      <Provider store={store}>
+        <Layout />
+      </Provider>
+    )
+  }
+}
 
 export default App;
-
-
