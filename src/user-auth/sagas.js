@@ -16,7 +16,8 @@ export function* workerUserSignup(actionObject) {
         if (user.user.uid) {
             yield put({ type: 'USER_SIGNUP_SUCCESS', uid: user.user.uid });
             yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
-            yield put({ type: 'USER_LOGGED_IN' });
+            yield call(AsyncStorage.setItem, 'uid', user.user.uid);
+            yield put({ type: 'USER_LOGGED_IN', uid: user.user.uid });
         }
     } catch (error) {
         yield put({ type: 'USER_SIGNUP_FAIL', error });

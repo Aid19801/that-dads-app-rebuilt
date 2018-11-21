@@ -10,6 +10,17 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
+const uid = () => {
+  AsyncStorage.getItem('uid')
+    .then(res => {
+      if (res === 'false' || res === null) {
+        return null;
+      } else {
+        return res;
+      }
+    })
+    .catch(err => console.log(err));
+};
 
 class App extends React.Component {
   constructor() {
