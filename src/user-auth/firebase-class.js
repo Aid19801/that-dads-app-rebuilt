@@ -1,21 +1,23 @@
 import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
+import { firebaseConfig } from './firebase';
+import '@firebase/firestore';
 
 class Firebase {
 
     // *ASYNC STORAGE* reading, writing AsyncStorage information (id's)
-    async getAsyncUid() { // basic user auth ID
+    async getAsyncUid() { // basic user auth ID or 'uid'
         console.log('retrieving AsyncStorage: User Authentication uid...');
 		let uid = await AsyncStorage.getItem('uid');
         return uid;
     }
-    async getAsyncObjId() { // proper likes/tagline user obj id
+    async getAsyncObjId() { // proper likes/tagline user obj id or 'id'
         console.log('retrieving AsyncStorage: User Details Object Id...');
         let id = await AsyncStorage.getItem('id');
         console.log('id retrieved was: ', id);
         return id;
     }
-    async setAsyncUid(uid) { // setting user auth id
+    async setAsyncUid(uid) { // setting user-auth-id or 'uid'
         console.log('setting AsyncStorage: User Auth uid...');
         AsyncStorage.setItem('uid', uid);
 
@@ -25,7 +27,7 @@ class Firebase {
             })
         }, 1000)
     }
-    async setAsyncObjId(id) { // setting user auth id
+    async setAsyncObjId(id) { // setting user auth id or 'id'
         console.log('setting AsyncStorage: User Details Object Id...');
         AsyncStorage.setItem('id', id);
 
@@ -40,14 +42,14 @@ class Firebase {
         AsyncStorage.setItem('uid', '');
         AsyncStorage.setItem('id', '');
 
-    setTimeout(() => {
-        AsyncStorage.getItem('uid').then(res => {
-            console.log('checking uid was destroyed: ', res);
-        })
-        AsyncStorage.getItem('id').then(res => {
-            console.log('checking id was destroyed: ', res);
-        })
-    }, 1000);
+        setTimeout(() => {
+            AsyncStorage.getItem('uid').then(res => {
+                console.log('checking uid was destroyed: ', res);
+            })
+            AsyncStorage.getItem('id').then(res => {
+                console.log('checking id was destroyed: ', res);
+            })
+        }, 1000);
     }
 
     // *FIRESTORE USER DETAILS*
@@ -75,6 +77,40 @@ class Firebase {
         })
     }
 
+    async setUserDetailsObject(userName, tagline, likes, dislikes, uid) {
+        return new Promise((resolve, reject) => {
+            console.log('1');
+            if (!firebase.apps.length) {
+                console.log('2');
+                firebase.initializeApp(firebaseConfig);
+            }
+            console.log('3');
+
+            var db = firebase.firestore();
+            console.log('4');
+            db.settings({
+                timestampsInSnapshots: true,
+            })
+            console.log('5');
+            db.collection("users").doc().set({
+                userName,
+                tagline,
+                likes,
+                dislikes,
+                uid,
+            })
+            .then((res) => {
+                console.log('6: ', res);
+                resolve(res)
+            })
+            .catch((err) => {
+                console.error("Error writing document: ", err);
+                reject(err);
+            });
+
+        })
+    }
+
 
     // *USER AUTHENTICATION* reading, writing email/pw accounts
     async registerUser(email, password) {
@@ -92,7 +128,7 @@ class Firebase {
         try {
             let user = await firebase.auth().signInWithEmailAndPassword(email, password);
             console.log('user logged in with Firebase user auth: ', user);
-            return;
+            return user;
         } catch (error) {
             console.log('user auth Login error: ', error);
             return;

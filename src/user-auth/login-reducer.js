@@ -4,6 +4,7 @@ const initialState = {
     password: '',
     error: null,
     isLoggedIn: false,
+    uid: '',
 }
 
 export default loginReducer = (state = initialState, action) => {
@@ -35,11 +36,12 @@ export default loginReducer = (state = initialState, action) => {
             break;
 
         case 'USER_LOGGED_IN':
-        console.log('USER_LOGGED_IN');
+        console.log('USER_LOGGED_IN: ', action);
             return {
                 ...state,
                 isLoading: false,
                 isLoggedIn: true,
+                uid: action.uid,
             }
             break;
 

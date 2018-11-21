@@ -1,7 +1,7 @@
-import React from 'react';
-import firebase from 'firebase';
-import { addToDatabase } from './firestore';
-import { AsyncStorage } from 'react-native';
+// import React from 'react';
+// import firebase from 'firebase';
+// import { addToDatabase } from './firestore';
+// import { AsyncStorage } from 'react-native';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCEfHnVHjKNKQqmGcIeONrHFDFVm3t6wyc",
@@ -12,80 +12,80 @@ export const firebaseConfig = {
     messagingSenderId: "93145385619"
 }
 
-export const signUp = async (email, password) => {
-    try {
-        let user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        console.log('firebase | user created: ', user);
-        return user;
-    } catch (error) {
-        console.log('firebase | signUp | created User ERROR: ', error);
-        return error;
-    }
-}
+// export const signUp = async (email, password) => {
+//     try {
+//         let user = await firebase.auth().createUserWithEmailAndPassword(email, password);
+//         console.log('firebase | user created: ', user);
+//         return user;
+//     } catch (error) {
+//         console.log('firebase | signUp | created User ERROR: ', error);
+//         return error;
+//     }
+// }
 
-export const login = async (email, password) => {
-    try {
-        let loginStatus = await firebase.auth().signInWithEmailAndPassword(email, password);
-        console.log('firebase login returned: ', loginStatus);
-        return loginStatus;
-    } catch (error) {
-        return error;
-    }
-}
+// export const login = async (email, password) => {
+//     try {
+//         let loginStatus = await firebase.auth().signInWithEmailAndPassword(email, password);
+//         console.log('firebase login returned: ', loginStatus);
+//         return loginStatus;
+//     } catch (error) {
+//         return error;
+//     }
+// }
 
-export const logout = async () => {
-    console.log('AT | logging out of Firebase & Killing AsyncStorage...');
-    try {
-        await firebase.auth().signOut();
-        await destroyAsync();
-    } catch (error) {
-        console.log('firebase logout error: ', error);
-    }
-}
+// export const logout = async () => {
+//     console.log('AT | logging out of Firebase & Killing AsyncStorage...');
+//     try {
+//         await firebase.auth().signOut();
+//         await destroyAsync();
+//     } catch (error) {
+//         console.log('firebase logout error: ', error);
+//     }
+// }
 
-export const saveAsync = async (uid) => {
-    console.log('AT | save async: ', uid);
-    AsyncStorage.setItem('uid', uid);
+// export const saveAsync = async (uid) => {
+//     console.log('AT | save async: ', uid);
+//     AsyncStorage.setItem('uid', uid);
 
-    setTimeout(() => {
-        AsyncStorage.getItem('uid').then(res => {
-            console.log('checking uid was saved to async: ', res);
-        })
-    }, 1000)
-}
+//     setTimeout(() => {
+//         AsyncStorage.getItem('uid').then(res => {
+//             console.log('checking uid was saved to async: ', res);
+//         })
+//     }, 1000)
+// }
 
-export const checkAsync = async () => {
-    console.log('checking AsyncStorage... ');
-    let uid = await AsyncStorage.getItem('uid');
-    return uid;
-}
+// export const checkAsync = async () => {
+//     console.log('checking AsyncStorage... ');
+//     let uid = await AsyncStorage.getItem('uid');
+//     return uid;
+// }
 
-export const destroyAsync = async () => {
-    console.log('AT | destroying async...');
-    AsyncStorage.setItem('uid', '');
+// export const destroyAsync = async () => {
+//     console.log('AT | destroying async...');
+//     AsyncStorage.setItem('uid', '');
 
-    setTimeout(() => {
-        AsyncStorage.getItem('uid').then(res => {
-            console.log('checking uid was destroyed: ', res);
-        })
-    }, 1000);
-}
+//     setTimeout(() => {
+//         AsyncStorage.getItem('uid').then(res => {
+//             console.log('checking uid was destroyed: ', res);
+//         })
+//     }, 1000);
+// }
 
-const FirebaseFactory = PlatformSpecificComponent => {
-    const Firebase = (props) => {
-        const allProps = {
-            ...props,
-            signUp,
-            login,
-            logout,
-            saveAsync,
-            checkAsync,
-            destroyAsync,
-            addToDatabase,
-        }
-        return <PlatformSpecificComponent {...allProps} />
-    }
-    return Firebase;
-}
+// const FirebaseFactory = PlatformSpecificComponent => {
+//     const Firebase = (props) => {
+//         const allProps = {
+//             ...props,
+//             signUp,
+//             login,
+//             logout,
+//             saveAsync,
+//             checkAsync,
+//             destroyAsync,
+//             addToDatabase,
+//         }
+//         return <PlatformSpecificComponent {...allProps} />
+//     }
+//     return Firebase;
+// }
 
-export default FirebaseFactory;
+// export default FirebaseFactory;

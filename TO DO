@@ -1,0 +1,2 @@
+1. check register journey is saving uid to AsyncStorage
+as its not in props when ProfilePage loads.

@@ -7,7 +7,7 @@ import {
   } from "react-navigation";
 import SignUp from './src/user-auth/screens/signup-page';
 import SignInPage from './src/user-auth/screens/signin-page';
-import { HomePage, PlaceHolder, LocalPage } from './src/containers';
+import { HomePage, PlaceHolder, LocalPage, ProfilePage } from './src/containers';
 import { AsyncStorage } from 'react-native';
 
 export const isSignedIn = () => {
@@ -44,7 +44,7 @@ export const SignedIn = createBottomTabNavigator(
   Home: { screen: HomePage},
   Local: { screen: LocalPage },
   Chat: { screen: PlaceHolder },
-  Profile: { screen: PlaceHolder },
+  Profile: { screen: ProfilePage },
   },
   {
     tabBarOptions: {
