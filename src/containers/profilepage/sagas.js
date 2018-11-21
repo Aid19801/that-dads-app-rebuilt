@@ -13,7 +13,7 @@ export function* workerProfilePage() {
     const isLoggedIn = yield call(AsyncStorage.getItem, 'isLoggedIn'); // they setup an email/pw acc.
     const uid = yield call(AsyncStorage.getItem, 'uid'); // it came back as positive
     const id = yield call(FirebaseClass.getAsyncObjId); // they setup a profile with all info.
-
+    console.log('this id value is blank: ', id);
     // if we're logged in, we've saved user auth & we've previously saved
     // object ID details - then fire off the actions to retrieve them.
     

@@ -115,7 +115,42 @@ class Firebase {
         })
     }
 
+    async useUIDtoSetID(uid) {
 
+        // loop through all docs and retrieve the doc id we want:
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        var db = firebase.firestore();
+
+        db.settings({
+            timestampsInSnapshots: true
+        });
+
+        db.collection("users").get()
+            .then(querySnapshot => {
+                querySnapshot.forEach((doc) => {
+                    let userDataObject = doc.data();
+                    if (uid === userDataObject.uid) {
+                        // if the user-auth uid from Firebase Authentication
+                        // matches one of the Firestore document uid keys
+                        // store the doc.id in async storage. Because this is the 'id' we
+                        // use in Profile Page to retrieve Firestore details.
+                        AsyncStorage.setItem('id', doc.id);
+
+                        setTimeout(() => {
+                            AsyncStorage.getItem('id').then(res => {
+                                console.log('checking `id` was saved to async: ', res);
+                            })
+                        }, 1000);
+                    }
+                });
+            })
+            .catch(err => {
+                console.log('firebase | couldnt get user deets object or id | err: ', err);
+            });
+    }
+    
     // *USER AUTHENTICATION* reading, writing email/pw accounts
     async registerUser(email, password) {
         try {

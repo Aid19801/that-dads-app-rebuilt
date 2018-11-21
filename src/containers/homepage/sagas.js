@@ -36,6 +36,17 @@ export function* workerLoadNews() {
     isLoaded ? yield put({ type: 'NEWS_LOADED', stories }) : yield put({ type: 'NEWS_FAILED' })
 }
 
+export function* watcherGetUID() {
+    yield takeLatest('GET_UID', workerGetUID);
+}
+
+export function* workerGetUID() {
+    const uid = yield call(FirebaseClass.getAsyncUid);
+    const id = yield call(FirebaseClass.useUIDtoSetID, uid);
+    yield put({ type: 'GOT_UID', uid });
+    yield put({ type: 'GOT_ID', id });
+}
+
 export function* watcherKillAllAsync() {
     yield takeLatest('KILL_ALL_ASYNC', workerKillAllAsync);
 

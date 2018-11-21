@@ -1,6 +1,8 @@
 const initialState = {
     isLoading: false,
     error: null,
+    uid: '',
+    id: '',
 }
 
 export default homepageReducer = (state = initialState, action) => {
@@ -50,6 +52,29 @@ export default homepageReducer = (state = initialState, action) => {
         console.log('KILL_ALL_ASYNC');
             return {
                 ...state,
+            }
+            break;
+
+        case 'GET_UID':
+        console.log('GET_UID');
+            return {
+                ...state,
+            }
+            break;
+
+        case 'GOT_UID':
+        console.log('GOT_UID');
+            return {
+                ...state,
+                uid: action.uid,
+            }
+            break;
+
+        case 'GOT_ID':
+        console.log('GOT_ID');
+            return {
+                ...state,
+                id: action.id,
             }
             break;
 

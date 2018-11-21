@@ -13,6 +13,7 @@ class HomePage extends Component {
 
     componentWillMount = () => {
         this.props.pageLoading();
+        this.props.isLoggedIn();
     }
 
     componentDidMount = () => {
@@ -21,7 +22,7 @@ class HomePage extends Component {
 
     render() {
 
-        console.log('homepage props:', this.props);
+        console.log('homepage props uid:', this.props.uid);
 
         if (this.props.isLoading) {
 
@@ -66,11 +67,14 @@ const mapStateToProps = (state) => ({
     isLoading: state.homepage.isLoading,
     isLoaded: state.homepage.isLoaded,
     stories: state.homepage.stories,
+    uid: state.homepage.uid,
+    id: state.homepage.id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'HOMEPAGE_LOADING' }),
     pageLoaded: () => dispatch({ type: 'HOMEPAGE_LOADED' }),
+    isLoggedIn: () => dispatch({ type: 'GET_UID' }),
     killAsync: () => dispatch({ type: 'KILL_ALL_ASYNC' })
 });
 

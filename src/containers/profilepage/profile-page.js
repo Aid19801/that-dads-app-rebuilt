@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, TextInput, AsyncStorage, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { LogoImage } from '../../components';
 
 class ProfilePage extends Component {
     
@@ -30,8 +31,7 @@ class ProfilePage extends Component {
 
     render() {
         const { newUser, isLoading } = this.props;
-        console.log('ProfilePage props.userName', this.props.userName);
-        console.log('ProfilePage props.tagline', this.props.tagline);
+        console.log('ProfilePage uid ', this.props.uid);
 
         if (this.props.isLoading) {
 
@@ -51,7 +51,7 @@ class ProfilePage extends Component {
             return (
                 <View style={styles.container}>
                     
-                    <View style={styles.detailsContainer}>
+                    <View style={styles.newUserDetailsContainer}>
                         
                         <Text>New User | PROFILE | Please fill out fields below! </Text>
     
@@ -79,19 +79,23 @@ class ProfilePage extends Component {
             return (
                 <View style={styles.container}>
                     
-                    <View style={styles.detailsContainer}>
+                    <LogoImage />
+
+                    <View style={styles.existingUserDetailsContainer}>
     
-                        <View style={styles.textInputContainer}>
-                            <Text style={styles.textInput}>{userName}</Text>
+                        <View style={styles.existingUserTextContainer}>
+                            <Text style={styles.existingUserText}>{userName}</Text>
                         </View>
-                        <View style={styles.textInputContainer}>
-                            <Text style={styles.textInput}>{tagline}</Text>
+                        <View style={styles.existingUserTextContainer}>
+                            <Text style={styles.existingUserText}>"{tagline}..."</Text>
                         </View>
-                        <View style={styles.textInputContainer}>
-                            <Text style={styles.textInput}>{likes}</Text>
+                        <Text>Likes: </Text>
+                        <View style={styles.existingUserTextContainer}>
+                            <Text style={styles.existingUserText}>{likes}</Text>
                         </View>
-                        <View style={styles.textInputContainer}>
-                            <Text style={styles.textInput}>{dislikes}</Text>
+                        <Text>Dislikes: </Text>
+                        <View style={styles.existingUserTextContainer}>
+                            <Text style={styles.existingUserText}>{dislikes}</Text>
                         </View>
                         <Button title="Update" onPress={() => this.saveDetailsToChromeStore()} />
                     </View>          
@@ -110,7 +114,7 @@ const mapStateToProps = (state) => ({
     tagline: state.profile.tagline,
     userName: state.profile.userName,
     newUser: state.profile.newUser,
-    uid: state.login.uid,
+    uid: state.homepage.uid,
 });
     
 const mapDispatchToProps = (dispatch) => ({
@@ -132,11 +136,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'blue',
         width: '100%',
+        paddingTop: 20,
     },
     loading: {
         marginTop: 100,
     },
-    detailsContainer: {
+    newUserDetailsContainer: {
         flex: 1,
         flexDirection: 'column',
         width: '95%',
@@ -144,6 +149,16 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         alignItems: 'center',
         marginTop: 90,
+    },
+    existingUserDetailsContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        width: '95%',
+        borderColor: 'white',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderWidth: 2,
+        alignItems: 'center',
+        marginTop: 0,
     },
     textInputContainer: {
         marginTop: 10,
@@ -155,8 +170,24 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         backgroundColor: 'white',
     },
+    existingUserTextContainer: {
+        marginTop: 10,
+        borderColor: 'white',
+        borderWidth: 4,
+        borderRadius: 30,
+        width: '90%',
+        height: 60,
+        marginBottom: 10,
+        backgroundColor: '#09093B',
+    },
     textInput: {
         fontSize: 30,
         marginLeft: 10,
+    },
+    existingUserText: {
+        fontSize: 30,
+        marginTop: 10,
+        color: 'white',
+        textAlign: 'center',
     }
 });
