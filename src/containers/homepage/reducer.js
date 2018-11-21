@@ -1,8 +1,5 @@
-import * as actions from './constants';
-
 const initialState = {
     isLoading: false,
-    isLoaded: false,
     error: null,
 }
 
@@ -46,6 +43,13 @@ export default homepageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
+            }
+            break;
+
+        case 'KILL_ALL_ASYNC':
+        console.log('KILL_ALL_ASYNC');
+            return {
+                ...state,
             }
             break;
 

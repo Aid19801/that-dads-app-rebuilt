@@ -34,6 +34,18 @@ export default profilepageReducer = (state = initialState, action) => {
             }
             break;
 
+        case 'GOT_ID_DETAILS_FROM_CHROMESTORE':
+        console.log('GOT_ID_DETAILS_FROM_CHROMESTORE');
+            return {
+                ...state,
+                isLoading: false,
+                userName: action.userName,
+                tagline: action.tagline,
+                likes: action.likes,
+                dislikes: action.dislikes,
+            }
+            break;
+
         case 'NO_ID_DETAILS_PREV_SAVED':
         console.log('NO_ID_DETAILS_PREV_SAVED');
             return {

@@ -41,6 +41,7 @@ class Firebase {
         console.log('destroying async...');
         AsyncStorage.setItem('uid', '');
         AsyncStorage.setItem('id', '');
+        AsyncStorage.setItem('isLoggedIn', 'false');
 
         setTimeout(() => {
             AsyncStorage.getItem('uid').then(res => {
@@ -48,6 +49,9 @@ class Firebase {
             })
             AsyncStorage.getItem('id').then(res => {
                 console.log('checking id was destroyed: ', res);
+            })
+            AsyncStorage.getItem('isLoggedIn').then(res => {
+                console.log('checking isLoggedIn is false: ', res);
             })
         }, 1000);
     }
@@ -79,20 +83,21 @@ class Firebase {
 
     async setUserDetailsObject(userName, tagline, likes, dislikes, uid) {
         return new Promise((resolve, reject) => {
-            console.log('1');
+            
+            let uniqueFireStoreDocumentReference = `${Date.now()}_${userName}_${uid}`;
+            console.log('AT | uniqueFireStoreDocumentReference: ', uniqueFireStoreDocumentReference);
+            AsyncStorage.setItem('id', uniqueFireStoreDocumentReference);
+
             if (!firebase.apps.length) {
-                console.log('2');
                 firebase.initializeApp(firebaseConfig);
             }
-            console.log('3');
 
             var db = firebase.firestore();
-            console.log('4');
             db.settings({
                 timestampsInSnapshots: true,
             })
-            console.log('5');
-            db.collection("users").doc().set({
+
+            db.collection("users").doc(uniqueFireStoreDocumentReference).set({
                 userName,
                 tagline,
                 likes,
@@ -100,7 +105,6 @@ class Firebase {
                 uid,
             })
             .then((res) => {
-                console.log('6: ', res);
                 resolve(res)
             })
             .catch((err) => {
@@ -126,14 +130,75 @@ class Firebase {
 
     async login(email, password) {
         try {
+
+
+            // clearing Async first because youre logging in afresh
+            console.log('destroying async...');
+            AsyncStorage.setItem('uid', '');
+            AsyncStorage.setItem('id', '');
+            AsyncStorage.setItem('isLoggedIn', 'false');
+    
+            setTimeout(() => {
+                AsyncStorage.getItem('uid').then(res => {
+                    console.log('checking uid was destroyed: ', res);
+                })
+                AsyncStorage.getItem('id').then(res => {
+                    console.log('checking id was destroyed: ', res);
+                })
+                AsyncStorage.getItem('isLoggedIn').then(res => {
+                    console.log('checking isLoggedIn is false: ', res);
+                })
+            }, 1000);
+            // ^^ clearing Async first because youre logging in afresh ^^ 
+
+
             let user = await firebase.auth().signInWithEmailAndPassword(email, password);
             console.log('user logged in with Firebase user auth: ', user);
+            
+            if(user && user.user && user.user.uid) {
+                // loop through all docs and retrieve the doc id we want:
+
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                var db = firebase.firestore();
+
+                db.settings({
+                    timestampsInSnapshots: true
+                });
+
+                db.collection("users").get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach((doc) => {
+                            let userDataObject = doc.data();
+                            if (user.user.uid === userDataObject.uid) {
+                                // if the user-auth uid from Firebase Authentication
+                                // matches one of the Firestore document uid keys
+                                // store the doc.id in async storage. Because this is the 'id' we
+                                // use in Profile Page to retrieve Firestore details.
+                                AsyncStorage.setItem('id', doc.id);
+
+                                setTimeout(() => {
+                                    AsyncStorage.getItem('id').then(res => {
+                                        console.log('checking `id` was saved to async: ', res);
+                                    })
+                                }, 1000);
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.log('firebase | couldnt get user deets object | err: ', err);
+                        reject(err);
+                    });
+            }
             return user;
         } catch (error) {
             console.log('user auth Login error: ', error);
             return;
         }
     }
+
+
 }
 
 export default Firebase;

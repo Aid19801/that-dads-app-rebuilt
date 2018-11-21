@@ -12,8 +12,7 @@ export function* workerProfilePage() {
     // establish *how* logged in this user is
     const isLoggedIn = yield call(AsyncStorage.getItem, 'isLoggedIn'); // they setup an email/pw acc.
     const uid = yield call(AsyncStorage.getItem, 'uid'); // it came back as positive
-    const id = yield call(AsyncStorage.getItem, 'id'); // they setup a profile with all info.
-
+    const id = yield call(FirebaseClass.getAsyncObjId); // they setup a profile with all info.
 
     // if we're logged in, we've saved user auth & we've previously saved
     // object ID details - then fire off the actions to retrieve them.
@@ -32,8 +31,19 @@ export function* watcherGetIDDetails() {
 }
 
 export function* workerGetIDDetails() {
-    console.log('You have a obj id so now firing worker *Get* IDDetails');
+    
+    try {
+        console.log('You have a obj id so now firing worker *Get* IDDetails');
+        const id = yield call(FirebaseClass.getAsyncObjId); // they setup a profile with all info.
+        const resp = yield call(FirebaseClass.getUserDetailsObject, id);
+        const { userName, tagline, likes, dislikes } = resp;
+        yield put({ type: 'GOT_ID_DETAILS_FROM_CHROMESTORE', userName, tagline, likes, dislikes });   
+    } catch (error) {
+        console.log('error: ', error);
+    }
+    
 }
+
 
 // SET | ID DETAILS TO CHROMESTORE
 export function* watcherSetIDDetails() {

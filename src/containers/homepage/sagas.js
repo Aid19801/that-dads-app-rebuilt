@@ -1,11 +1,12 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
+import Firebase from '../../user-auth/firebase-class';
+
+let FirebaseClass = new Firebase();
 const url = 'https://dads-scraper.herokuapp.com';
 
 export function* watcherLoadNews() {
     yield takeLatest('HOMEPAGE_LOADED', workerLoadNews);
 }
-
-
 
 export function* workerLoadNews() {
     yield put({ type: 'NEWS_LOADING' });
@@ -33,4 +34,13 @@ export function* workerLoadNews() {
         }
         
     isLoaded ? yield put({ type: 'NEWS_LOADED', stories }) : yield put({ type: 'NEWS_FAILED' })
+}
+
+export function* watcherKillAllAsync() {
+    yield takeLatest('KILL_ALL_ASYNC', workerKillAllAsync);
+
+}
+export function* workerKillAllAsync() {
+    yield call(FirebaseClass.clearAsyncStorage);
+    
 }

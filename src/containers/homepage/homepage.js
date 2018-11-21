@@ -55,7 +55,7 @@ class HomePage extends Component {
                     />
                 </View>
                 
-                <Button title="kill async" onPress={() => AsyncStorage.setItem('isLoggedIn', 'false')} />
+                <Button title="kill async" onPress={() => this.props.killAsync()} />
 
             </View>
         )
@@ -71,6 +71,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'HOMEPAGE_LOADING' }),
     pageLoaded: () => dispatch({ type: 'HOMEPAGE_LOADED' }),
+    killAsync: () => dispatch({ type: 'KILL_ALL_ASYNC' })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

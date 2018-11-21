@@ -30,7 +30,8 @@ class ProfilePage extends Component {
 
     render() {
         const { newUser, isLoading } = this.props;
-        console.log('ProfilePage props:', this.props);
+        console.log('ProfilePage props.userName', this.props.userName);
+        console.log('ProfilePage props.tagline', this.props.tagline);
 
         if (this.props.isLoading) {
 
@@ -52,7 +53,7 @@ class ProfilePage extends Component {
                     
                     <View style={styles.detailsContainer}>
                         
-                        { newUser && <Text>New User | PROFILE | Please fill out fields below! </Text> }
+                        <Text>New User | PROFILE | Please fill out fields below! </Text>
     
                         <View style={styles.textInputContainer}>
                             <TextInput style={styles.textInput} onChangeText={(userName) => this.setState({ userName })} placeholder="userName" />
@@ -66,13 +67,38 @@ class ProfilePage extends Component {
                         <View style={styles.textInputContainer}>
                             <TextInput style={styles.textInput} onChangeText={(dislikes) => this.setState({ dislikes })} placeholder="dislikes" />
                         </View>
+                        <Button title="Save" onPress={() => this.saveDetailsToChromeStore()} />
+                    </View>          
+    
+                </View>
+            )
+        }
+        if (!newUser) {
+
+            const { userName, tagline, likes, dislikes } = this.props;
+            return (
+                <View style={styles.container}>
+                    
+                    <View style={styles.detailsContainer}>
+    
+                        <View style={styles.textInputContainer}>
+                            <Text style={styles.textInput}>{userName}</Text>
+                        </View>
+                        <View style={styles.textInputContainer}>
+                            <Text style={styles.textInput}>{tagline}</Text>
+                        </View>
+                        <View style={styles.textInputContainer}>
+                            <Text style={styles.textInput}>{likes}</Text>
+                        </View>
+                        <View style={styles.textInputContainer}>
+                            <Text style={styles.textInput}>{dislikes}</Text>
+                        </View>
                         <Button title="Update" onPress={() => this.saveDetailsToChromeStore()} />
                     </View>          
     
                 </View>
             )
         }
-        return null;
     }
 }
 
