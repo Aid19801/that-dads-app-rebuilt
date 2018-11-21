@@ -6,6 +6,8 @@ const initialState = {
     tagline: '',
     likes: '',
     dislikes: '',
+    id: '',
+    uid: '',
 }
 
 export default profilepageReducer = (state = initialState, action) => {
@@ -43,6 +45,7 @@ export default profilepageReducer = (state = initialState, action) => {
                 tagline: action.tagline,
                 likes: action.likes,
                 dislikes: action.dislikes,
+                id: action.id,
             }
             break;
 
@@ -74,6 +77,16 @@ export default profilepageReducer = (state = initialState, action) => {
                 likes: action.likes,
                 dislikes: action.dislikes,
                 uid: action.uid,
+            }
+            break;
+
+        case 'ID_DETAILS_SET':
+        console.log('ID_DETAILS_SET: ', action);
+            return {
+                ...state,
+                isLoading: false,
+                id: action.id,
+                newUser: false,
             }
             break;
 

@@ -105,7 +105,7 @@ class Firebase {
                 uid,
             })
             .then((res) => {
-                resolve(res)
+                resolve(uniqueFireStoreDocumentReference)
             })
             .catch((err) => {
                 console.error("Error writing document: ", err);

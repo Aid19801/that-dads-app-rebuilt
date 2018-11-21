@@ -12,6 +12,7 @@ class ProfilePage extends Component {
             tagline: '',
             likes: '',
             dislikes: '',
+            isUpdated: false,
         }
     }
 
@@ -29,9 +30,18 @@ class ProfilePage extends Component {
         this.props.pageLoaded();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.id !== '') {
+            this.setState({
+                isUpdated: true,
+            })
+        }
+    }
+
     render() {
         const { newUser, isLoading } = this.props;
         console.log('ProfilePage uid ', this.props.uid);
+        console.log('ProfilePage id ', this.props.id);
 
         if (this.props.isLoading) {
 
@@ -115,6 +125,7 @@ const mapStateToProps = (state) => ({
     userName: state.profile.userName,
     newUser: state.profile.newUser,
     uid: state.homepage.uid,
+    id: state.profile.id,
 });
     
 const mapDispatchToProps = (dispatch) => ({

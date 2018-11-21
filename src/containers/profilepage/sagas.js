@@ -13,7 +13,6 @@ export function* workerProfilePage() {
     const isLoggedIn = yield call(AsyncStorage.getItem, 'isLoggedIn'); // they setup an email/pw acc.
     const uid = yield call(AsyncStorage.getItem, 'uid'); // it came back as positive
     const id = yield call(FirebaseClass.getAsyncObjId); // they setup a profile with all info.
-    console.log('this id value is blank: ', id);
     // if we're logged in, we've saved user auth & we've previously saved
     // object ID details - then fire off the actions to retrieve them.
     
@@ -37,7 +36,7 @@ export function* workerGetIDDetails() {
         const id = yield call(FirebaseClass.getAsyncObjId); // they setup a profile with all info.
         const resp = yield call(FirebaseClass.getUserDetailsObject, id);
         const { userName, tagline, likes, dislikes } = resp;
-        yield put({ type: 'GOT_ID_DETAILS_FROM_CHROMESTORE', userName, tagline, likes, dislikes });   
+        yield put({ type: 'GOT_ID_DETAILS_FROM_CHROMESTORE', userName, tagline, likes, dislikes, id });   
     } catch (error) {
         console.log('error: ', error);
     }
@@ -50,13 +49,12 @@ export function* watcherSetIDDetails() {
     yield takeLatest('SETTING_ID_DETAILS', workerSetIDDetails);
 }
 
-export function* workerSetIDDetails(actionObj) {
-    console.log('Setting ID details...actionObj :', actionObj);
-    
+export function* workerSetIDDetails(actionObj) {    
     const { userName, tagline, likes, dislikes, uid } = actionObj;
 
     try {
-        yield call(FirebaseClass.setUserDetailsObject, userName, tagline, likes, dislikes, uid);
+        const id = yield call(FirebaseClass.setUserDetailsObject, userName, tagline, likes, dislikes, uid);
+        yield put({ type: 'ID_DETAILS_SET', id })
     } catch (error) {
         console.log('error: ', error);
     }
