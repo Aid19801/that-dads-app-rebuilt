@@ -22,8 +22,8 @@ class HomePage extends Component {
 
     render() {
 
-        console.log('homepage props uid:', this.props.uid);
-        console.log('homepage props id:', this.props.id);
+        // console.log('homepage props uid:', this.props.uid);
+        // console.log('homepage props id:', this.props.id);
 
         if (this.props.isLoading) {
 
@@ -90,17 +90,17 @@ const styles = StyleSheet.create({
 
         backgroundColor: 'skyblue',
         borderWidth: 2,
-        borderColor: 'blue',
+        borderColor: 'red',
         width: '100%',
     },
     loading: {
         marginTop: 100,
     },
     flatListContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        width: '95%',
-        borderColor: 'grey',
+        marginTop: 20,
+        justifyContent: 'flex-start',
+        // flexDirection: 'column',
+        width: '100%',
         alignItems: 'center',
     }
   });
