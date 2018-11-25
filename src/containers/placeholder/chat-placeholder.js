@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, AsyncStorage, Button, FlatList, KeyboardAvoidingView } from 'react-native';
 import SocketIOClient from 'socket.io-client';
+import { ChatMessage } from '../../components';
 
 export class ChatPlaceHolder extends Component {
   constructor() {
@@ -20,8 +21,15 @@ export class ChatPlaceHolder extends Component {
 
   sendMessage = async () => {
     const { newMessage } = this.state;
+    let msgObject = {
+      userId: 'user-id-99999999999999',
+      userName: 'mock-user0937',
+      message: '0937mockmsg',
+      timestamp: '10000000000000'
+    };
+
     try {
-        await this.socket.emit('newMessage', newMessage);
+        await this.socket.emit('newMessage', msgObject);
     } catch (error) {
         console.log('websocket send msg error: ', error);
     } 
@@ -39,10 +47,13 @@ export class ChatPlaceHolder extends Component {
                         data={this.state.messages.reverse()}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({item, i}) => 
-                        <View>
-                            <Text key={i}>{item.userName}</Text>
-                            <Text>{item.message}</Text>
-                        </View>
+                        
+                        
+                        <ChatMessage
+                            userName={item.userName}
+                            message={item.message}
+                        />
+
                         }
                     />
                 <View style={styles.textInputContainer}>
@@ -50,7 +61,10 @@ export class ChatPlaceHolder extends Component {
                         style={styles.textInput}
                         placeholder="type here..."
                     />
-                    <Button title="Send" onPress={() => this.sendMessage()} />
+                    <View style={styles.buttonContainer}>
+                        <Button color="white" title="Send" onPress={() => this.sendMessage()} />
+                    </View>
+                    
                 </View>
             </View>
         </KeyboardAvoidingView>
@@ -71,30 +85,40 @@ const styles = StyleSheet.create({
         height: '100%',
         borderWidth: 5,
         borderColor: 'black',
+        backgroundColor: '#CBC9D4',
     },
     messagesContainer: {
-        borderWidth: 2,
-        borderColor: 'gold',
         width: '95%',
         height: '90%',
     },
     textInputContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-around',
         height: 60,
         width: '100%',
-        borderWidth: 2,
-        borderColor: 'gold',
+        marginTop: 15,
     },
     textInput: {
-        borderWidth: 2,
-        borderColor: 'blue',
         height: 60,
         width: '70%',
         fontSize: 30,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        borderColor: 'purple',
+        borderWidth: 1,
+    },
+    buttonContainer: {
+        backgroundColor: 'purple',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        borderColor: 'white',
+        borderWidth: 1,
     },
     button: {
         borderColor: 'red',
         borderWidth: 2,
+        justifyContent: 'center',
         width: '30%',
     }
 
