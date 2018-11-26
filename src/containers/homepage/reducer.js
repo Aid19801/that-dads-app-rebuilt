@@ -71,7 +71,7 @@ export default homepageReducer = (state = initialState, action) => {
             break;
 
         case 'GOT_ID':
-        console.log('GOT_ID');
+        console.log('GOT_ID: ', action.id);
             return {
                 ...state,
                 id: action.id,

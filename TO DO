@@ -1,2 +1,4 @@
-1. check register journey is saving uid to AsyncStorage
-as its not in props when ProfilePage loads.
+MongoDb / MBLAB of 20 msgs
+that is hosted as json on Heroku
+socketIO server = calls API
+Rn Chat page is alerted when new msg is posted.

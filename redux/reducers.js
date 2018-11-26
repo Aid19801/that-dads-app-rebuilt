@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+
+import chatPageReducer from '../src/containers/chatpage/reducer';
 import homepageReducer from '../src/containers/homepage/reducer';
 import localpageReducer from '../src/containers/localpage/local-reducer';
 import loginReducer from '../src/user-auth/login-reducer';
@@ -11,7 +13,7 @@ const reducers = combineReducers({
     login: loginReducer,
     profile: profilepageReducer,
     signup: signUpReducer,
-
+    chat: chatPageReducer,
 })
 
 export default reducers;

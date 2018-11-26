@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, TextInput, AsyncStorage, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { FlatList, TextInput, Platform, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { LogoImage } from '../../components';
 
 class ProfilePage extends Component {
@@ -183,22 +183,30 @@ const styles = StyleSheet.create({
     },
     existingUserTextContainer: {
         marginTop: 10,
-        borderColor: 'white',
-        borderWidth: 4,
-        borderRadius: 30,
         width: '90%',
         height: 60,
         marginBottom: 10,
-        backgroundColor: '#09093B',
+        borderRadius: 10,
+        backgroundColor: 'white',
+        flexWrap: 'wrap',
     },
     textInput: {
         fontSize: 30,
         marginLeft: 10,
     },
     existingUserText: {
-        fontSize: 30,
+        flexWrap: 'wrap',
         marginTop: 10,
-        color: 'white',
         textAlign: 'center',
+        fontSize: 30,
+        color: '#423C67',
+        ...Platform.select({
+            ios: {
+              fontFamily: 'Bradley Hand',
+            },
+            android: {
+              fontFamily: 'gamezop',
+            }
+          })
     }
 });

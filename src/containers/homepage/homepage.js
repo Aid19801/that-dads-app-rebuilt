@@ -22,8 +22,8 @@ class HomePage extends Component {
 
     render() {
 
-        // console.log('homepage props uid:', this.props.uid);
-        // console.log('homepage props id:', this.props.id);
+        console.log('homepage props uid:', this.props.uid);
+        console.log('homepage props id:', this.props.id);
 
         if (this.props.isLoading) {
 
@@ -48,29 +48,31 @@ class HomePage extends Component {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) =>
                             <ContentBox
-                                title={item.headline}
-                                synopsis={item.blurb}
+                                headline={item.headline}
+                                blurb={item.blurb}
                                 source={item.org}
                                 url={item.url}
                                 imgUrl={item.imgUrl}
                             /> }
                     />
                 </View>
-                
-                <Button title="kill async" onPress={() => this.props.killAsync()} />
 
             </View>
         )
     }
 }
 
-const mapStateToProps = (state) => ({
-    isLoading: state.homepage.isLoading,
-    isLoaded: state.homepage.isLoaded,
-    stories: state.homepage.stories,
-    uid: state.homepage.uid,
-    id: state.homepage.id,
-});
+const mapStateToProps = (state) => {
+    // console.log('home page state ====> ', state);
+    return {
+        isLoading: state.homepage.isLoading,
+        isLoaded: state.homepage.isLoaded,
+        stories: state.homepage.stories,
+        uid: state.homepage.uid,
+        id: state.homepage.id,
+    }
+    
+};
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'HOMEPAGE_LOADING' }),
@@ -88,10 +90,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
 
-        backgroundColor: 'skyblue',
-        borderWidth: 2,
-        borderColor: 'red',
+        borderWidth: 5,
+        borderColor: 'black',
         width: '100%',
+        backgroundColor: '#CBC9D4',
     },
     loading: {
         marginTop: 100,
@@ -99,7 +101,6 @@ const styles = StyleSheet.create({
     flatListContainer: {
         marginTop: 20,
         justifyContent: 'flex-start',
-        // flexDirection: 'column',
         width: '100%',
         alignItems: 'center',
     }

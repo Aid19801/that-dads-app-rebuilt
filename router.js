@@ -7,7 +7,7 @@ import {
   } from "react-navigation";
 import SignUp from './src/user-auth/screens/signup-page';
 import SignInPage from './src/user-auth/screens/signin-page';
-import { HomePage, PlaceHolder, ChatPlaceHolder, LocalPage, ProfilePage } from './src/containers';
+import { HomePage, ChatPage, PlaceHolder, LocalPage, ProfilePage } from './src/containers';
 import { AsyncStorage } from 'react-native';
 
 export const isSignedIn = () => {
@@ -41,9 +41,9 @@ export const SignedOut = createStackNavigator({
 
 export const SignedIn = createBottomTabNavigator(
   {
-  Home: { screen: ChatPlaceHolder},
+  Home: { screen: HomePage},
   Local: { screen: LocalPage },
-  Chat: { screen: PlaceHolder },
+  Chat: { screen: ChatPage },
   Profile: { screen: ProfilePage },
   },
   {

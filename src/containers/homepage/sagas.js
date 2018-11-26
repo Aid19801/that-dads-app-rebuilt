@@ -43,6 +43,9 @@ export function* watcherGetUID() {
 export function* workerGetUID() {
     const uid = yield call(FirebaseClass.getAsyncUid);
     const id = yield call(FirebaseClass.useUIDtoSetID, uid);
+    // ^^ is anything actually being returned to this? 
+    console.log('id is coming thru!!!! ', id);
+
     yield put({ type: 'GOT_UID', uid });
     yield put({ type: 'GOT_ID', id });
 }

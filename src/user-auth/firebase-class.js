@@ -116,7 +116,7 @@ class Firebase {
     }
 
     async useUIDtoSetID(uid) {
-
+        return new Promise((resolve, reject) => {
         // loop through all docs and retrieve the doc id we want:
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -126,6 +126,8 @@ class Firebase {
         db.settings({
             timestampsInSnapshots: true
         });
+        
+        let foo;
 
         db.collection("users").get()
             .then(querySnapshot => {
@@ -137,7 +139,7 @@ class Firebase {
                         // store the doc.id in async storage. Because this is the 'id' we
                         // use in Profile Page to retrieve Firestore details.
                         AsyncStorage.setItem('id', doc.id);
-
+                        foo = doc.id;
                         setTimeout(() => {
                             AsyncStorage.getItem('id').then(res => {
                                 console.log('checking `id` was saved to async: ', res);
@@ -145,10 +147,14 @@ class Firebase {
                         }, 1000);
                     }
                 });
+            console.log('foo: ', foo);
+            resolve(foo);
             })
             .catch(err => {
                 console.log('firebase | couldnt get user deets object or id | err: ', err);
+                reject(err);
             });
+        })
     }
     
     // *USER AUTHENTICATION* reading, writing email/pw accounts
