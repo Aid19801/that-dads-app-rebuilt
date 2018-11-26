@@ -2,3 +2,13 @@ MongoDb / MBLAB of 20 msgs
 that is hosted as json on Heroku
 socketIO server = calls API
 Rn Chat page is alerted when new msg is posted.
+
+
+
+
+socket io
+https://github.com/vinnyoodles/react-native-socket-io-example/blob/master/client/index.js
+
+https://www.valentinog.com/blog/socket-io-node-js-react/
+
+https://hackernoon.com/a-simple-messaging-app-with-react-native-and-socket-io-e1cae3df7bda

@@ -22,8 +22,7 @@ class HomePage extends Component {
 
     render() {
 
-        console.log('homepage props uid:', this.props.uid);
-        console.log('homepage props id:', this.props.id);
+        console.log('homepage | this.props :', this.props);
 
         if (this.props.isLoading) {
 

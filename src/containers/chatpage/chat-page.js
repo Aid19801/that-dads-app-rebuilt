@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, TextInput, AsyncStorage, Button, FlatList, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, TextInput, ActivityIndicator, Button, FlatList, KeyboardAvoidingView } from 'react-native';
 import SocketIOClient from 'socket.io-client';
 import { ChatMessage } from '../../components';
 
@@ -22,33 +22,44 @@ export class ChatPage extends Component {
 
   sendMessage = async () => {
     const { newMessage } = this.state;
+    const { userName, id } = this.props;
+
     let msgObject = {
-      userId: 'user-id-99999999999999',
-      userName: 'mock-user0937',
-      message: '0937mockmsg',
-      timestamp: '10000000000000'
+      userId: id,
+      userName: userName,
+      message: newMessage,
+      timestamp: Date.now().toString(),
     };
 
     try {
         await this.socket.emit('newMessage', msgObject);
     } catch (error) {
         console.log('websocket send msg error: ', error);
-    } 
+    }
+
+    this.setState({
+        newMessage: '',
+    })
   }
 
   componentWillMount = () => {
     this.props.pageLoading();
   }
 
-  componentDidMount = () => {
-      this.props.pageLoaded();
-  }
-  
-
   render() {
 
     console.log('chat | THIS STATE ', this.state);
-    console.log('chat | THIS PROPS ', this.props);
+    console.log('chat | this.props ', this.props);
+
+    if (this.state.messages.length === 0) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            </View>
+        )
+    }
 
     return (
         <KeyboardAvoidingView style={styles.container}
@@ -71,6 +82,7 @@ export class ChatPage extends Component {
                 <View style={styles.textInputContainer}>
                     <TextInput onChangeText={(newMessage) => this.setState({ newMessage })} 
                         style={styles.textInput}
+                        value={this.state.newMessage}
                         placeholder="type msg here..."
                     />
                     <View style={styles.buttonContainer}>
@@ -84,16 +96,18 @@ export class ChatPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-    isLoading: state.chat.isLoading,
-    uid: state.homepage.uid,
-    id: state.homepage.id,
-})
+const mapStateToProps = (state) => {
+    return {
+        isLoading: state.chat.isLoading,
+        uid: state.homepage.uid,
+        id: state.profile.id,
+        userName: state.profile.userName,
+    }   
+}
 
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'CHAT_PAGE_LOADING'}),
-    pageLoaded: () => dispatch({ type: 'CHAT_PAGE_LOADED'}),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatPage);
@@ -109,6 +123,9 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderColor: 'black',
         backgroundColor: '#CBC9D4',
+    },
+    loading: {
+        marginTop: 100,
     },
     messagesContainer: {
         width: '95%',
