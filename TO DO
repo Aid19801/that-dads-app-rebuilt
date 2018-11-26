@@ -4,6 +4,15 @@ socketIO server = calls API
 Rn Chat page is alerted when new msg is posted.
 
 
+possible connection to mongo issue.
+deploy mondo / socket server to Heroku
+fade in FlatList
+fade in sending a msg
+fresh build
+unit tests
+
+
+
 
 
 socket io
