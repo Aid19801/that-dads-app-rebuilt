@@ -46,8 +46,9 @@ export function* workerGetUID() {
     // ^^ is anything actually being returned to this? 
     console.log(`uid is ${uid} and id is ${id}`);
 
-    yield put({ type: 'GOT_UID', uid });
-    yield put({ type: 'GOT_ID', id });
+    if (uid) { yield put({ type: 'GOT_UID', uid }); }
+    if (id) { yield put({ type: 'GOT_ID', id }); }
+    if (!uid) { yield put({ type: 'NO_UID_IN_ASYNC' }) }
 }
 
 export function* watcherKillAllAsync() {

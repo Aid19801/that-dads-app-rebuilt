@@ -78,6 +78,22 @@ export default homepageReducer = (state = initialState, action) => {
             }
             break;
 
+        case 'NO_UID_IN_ASYNC':
+        console.log('NO_UID_IN_ASYNC: ');
+            return {
+                ...state,
+                uid: null,
+            }
+            break;
+
+        case 'NO_UID_IN_ASYNC_SO_NO_ID':
+        console.log('NO_UID_IN_ASYNC_SO_NO_ID: ');
+            return {
+                ...state,
+                id: null,
+            }
+            break;
+
         default:
         return state;
     }

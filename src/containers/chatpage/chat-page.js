@@ -11,7 +11,10 @@ export class ChatPage extends Component {
           messages: [],
           newMessage: '',
       }
-    this.socket = SocketIOClient('http://127.0.0.1:4001');
+
+    // chat mocks
+    // this.socket = SocketIOClient('http://127.0.0.1:4001');
+    this.socket = SocketIOClient('https://that-dads-chat-server.herokuapp.com');
 
     this.socket.on('messages', messages => {
         this.setState({

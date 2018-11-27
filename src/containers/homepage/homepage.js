@@ -24,6 +24,13 @@ class HomePage extends Component {
 
         console.log('homepage | this.props :', this.props);
 
+        // if user isnt logged in, bounce them back to Login
+        if (this.props.uid === null) {
+            this.props.killAsync()
+            return this.props.navigation.navigate('SignIn');
+        }
+
+        // if page is loading show spinner
         if (this.props.isLoading) {
 
             return (
@@ -38,6 +45,7 @@ class HomePage extends Component {
 
         }
 
+        // if user is logged in and its not loading... show homepage.s
         return (
             <View style={styles.container}>
 
@@ -65,7 +73,7 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    // console.log('home page state ====> ', state);
+    console.log('home page state ====> ', state);
     return {
         isLoading: state.homepage.isLoading,
         isLoaded: state.homepage.isLoaded,
