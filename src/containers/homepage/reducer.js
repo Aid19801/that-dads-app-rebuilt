@@ -71,10 +71,26 @@ export default homepageReducer = (state = initialState, action) => {
             break;
 
         case 'GOT_ID':
-        console.log('GOT_ID');
+        console.log('GOT_ID: ', action.id);
             return {
                 ...state,
                 id: action.id,
+            }
+            break;
+
+        case 'NO_UID_IN_ASYNC':
+        console.log('NO_UID_IN_ASYNC: ');
+            return {
+                ...state,
+                uid: null,
+            }
+            break;
+
+        case 'NO_UID_IN_ASYNC_SO_NO_ID':
+        console.log('NO_UID_IN_ASYNC_SO_NO_ID: ');
+            return {
+                ...state,
+                id: null,
             }
             break;
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, TextInput, AsyncStorage, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { FlatList, TextInput, Platform, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { LogoImage } from '../../components';
 
 class ProfilePage extends Component {
@@ -92,13 +92,15 @@ class ProfilePage extends Component {
                     <LogoImage />
 
                     <View style={styles.existingUserDetailsContainer}>
-    
-                        <View style={styles.existingUserTextContainer}>
-                            <Text style={styles.existingUserText}>{userName}</Text>
+                        
+                        <View style={styles.existingUserTextUserNameContainer}>
+                            <Text style={styles.existingUserTextUserName}>{userName}</Text>
                         </View>
+
                         <View style={styles.existingUserTextContainer}>
                             <Text style={styles.existingUserText}>"{tagline}..."</Text>
                         </View>
+                        
                         <Text>Likes: </Text>
                         <View style={styles.existingUserTextContainer}>
                             <Text style={styles.existingUserText}>{likes}</Text>
@@ -107,7 +109,8 @@ class ProfilePage extends Component {
                         <View style={styles.existingUserTextContainer}>
                             <Text style={styles.existingUserText}>{dislikes}</Text>
                         </View>
-                        <Button title="Update" onPress={() => this.saveDetailsToChromeStore()} />
+
+
                     </View>          
     
                 </View>
@@ -142,10 +145,9 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-
-        backgroundColor: 'skyblue',
-        borderWidth: 2,
-        borderColor: 'blue',
+        backgroundColor: '#CBC9D4',
+        borderWidth: 5,
+        borderColor: 'black',
         width: '100%',
         paddingTop: 20,
     },
@@ -165,9 +167,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         width: '95%',
-        borderColor: 'white',
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
-        borderWidth: 2,
         alignItems: 'center',
         marginTop: 0,
     },
@@ -182,23 +182,57 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     existingUserTextContainer: {
+        flex: 1,
+        width: 320,
+        height: 100,
         marginTop: 10,
-        borderColor: 'white',
-        borderWidth: 4,
-        borderRadius: 30,
-        width: '90%',
+        borderRadius: 10,
+        backgroundColor: 'white',
+    },
+    existingUserTextUserNameContainer: {
+        width: 320,
         height: 60,
+        marginTop: 10,
         marginBottom: 10,
-        backgroundColor: '#09093B',
+        borderRadius: 10,
+        backgroundColor: 'white',
     },
     textInput: {
         fontSize: 30,
         marginLeft: 10,
     },
     existingUserText: {
-        fontSize: 30,
+        flex: 1,
+        flexWrap: 'wrap',
         marginTop: 10,
-        color: 'white',
         textAlign: 'center',
+        fontSize: 25,
+        color: '#423C67',
+        ...Platform.select({
+            ios: {
+              fontFamily: 'Bradley Hand',
+            },
+            android: {
+              fontFamily: 'gamezop',
+            }
+          })
+    },
+    existingUserTextUserName: {
+        
+        flex: 1,
+        flexWrap: 'wrap',
+
+        marginTop: 10,
+        textAlign: 'center',
+        fontSize: 40,
+        color: '#423C67',
+        ...Platform.select({
+            ios: {
+              fontFamily: 'Bradley Hand',
+            },
+            android: {
+              fontFamily: 'gamezop',
+            }
+          })
     }
 });

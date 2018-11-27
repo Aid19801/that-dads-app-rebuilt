@@ -22,9 +22,15 @@ class HomePage extends Component {
 
     render() {
 
-        console.log('homepage props uid:', this.props.uid);
-        console.log('homepage props id:', this.props.id);
+        console.log('homepage | this.props :', this.props);
 
+        // if user isnt logged in, bounce them back to Login
+        if (this.props.uid === null) {
+            this.props.killAsync()
+            return this.props.navigation.navigate('SignIn');
+        }
+
+        // if page is loading show spinner
         if (this.props.isLoading) {
 
             return (
@@ -39,8 +45,13 @@ class HomePage extends Component {
 
         }
 
+        // if user is logged in and its not loading... show homepage.s
         return (
             <View style={styles.container}>
+
+                <View style={styles.buttonContainer}>
+                    <Button title="kill async" onPress={() => this.props.killAsync()} />
+                </View>
 
                 <View style={styles.flatListContainer}>
                     <FlatList
@@ -48,29 +59,30 @@ class HomePage extends Component {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) =>
                             <ContentBox
-                                title={item.headline}
-                                synopsis={item.blurb}
+                                headline={item.headline}
+                                blurb={item.blurb}
                                 source={item.org}
                                 url={item.url}
                                 imgUrl={item.imgUrl}
                             /> }
                     />
                 </View>
-                
-                <Button title="kill async" onPress={() => this.props.killAsync()} />
-
             </View>
         )
     }
 }
 
-const mapStateToProps = (state) => ({
-    isLoading: state.homepage.isLoading,
-    isLoaded: state.homepage.isLoaded,
-    stories: state.homepage.stories,
-    uid: state.homepage.uid,
-    id: state.homepage.id,
-});
+const mapStateToProps = (state) => {
+    console.log('home page state ====> ', state);
+    return {
+        isLoading: state.homepage.isLoading,
+        isLoaded: state.homepage.isLoaded,
+        stories: state.homepage.stories,
+        uid: state.homepage.uid,
+        id: state.homepage.id,
+    }
+    
+};
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'HOMEPAGE_LOADING' }),
@@ -88,19 +100,25 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
 
-        backgroundColor: 'skyblue',
-        borderWidth: 2,
-        borderColor: 'blue',
+        borderWidth: 5,
+        borderColor: 'black',
         width: '100%',
+        backgroundColor: '#CBC9D4',
     },
     loading: {
         marginTop: 100,
     },
     flatListContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        width: '95%',
-        borderColor: 'grey',
+        marginTop: 20,
+        justifyContent: 'flex-start',
+        width: '100%',
         alignItems: 'center',
+    },
+    buttonContainer: {
+        marginTop: 90,
+        height: 90,
+        width: 90,
+        borderWidth: 4,
+        borderColor: 'black',
     }
   });

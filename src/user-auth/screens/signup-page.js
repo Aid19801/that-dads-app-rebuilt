@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { LogoImage } from '../../components';
 import Firebase from '../firebase-class';
 
 class SignUpPage extends React.Component {
@@ -31,6 +32,10 @@ class SignUpPage extends React.Component {
 
         return (
             <View style={styles.container}>
+
+                <Text style={styles.mainTitle}>#ThatDadsApp</Text>
+                <LogoImage />
+
                 <View style={styles.textInputContainer}>
                     <TextInput style={styles.textInput} onChangeText={(email) => this.setState({ email })} placeholder="email" />
                 </View>
@@ -50,7 +55,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        marginBottom: 290, // pushes it up from the bottom. 2/3
+        marginBottom: 200, // pushes it up from the bottom. 2/3
+    },
+    mainTitle: {
+        fontSize: 30,
+        marginTop: 60,
     },
     textInputContainer: {
         borderColor: 'grey',
@@ -61,8 +70,9 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     textInput: {
-        fontSize: 30,
+        fontSize: 40,
         marginLeft: 10,
+        alignContent: 'center',
     }
 })
 

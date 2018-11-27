@@ -45,12 +45,12 @@ class SignInPage extends React.Component {
                     <TextInput style={styles.textInput} onChangeText={(email) => this.setState({ email })} placeholder="email" />
                 </View>
                 <View style={styles.textInputContainer}>
-                    <TextInput style={styles.textInput} onChangeText={(password) => this.setState({ password })} placeholder="password" />
+                    <TextInput secureTextEntry={true} style={styles.textInput} onChangeText={(password) => this.setState({ password })} placeholder="password" />
                 </View>
 
                 <View style={styles.buttonsContainer}>
                     <Button color="darkblue" title="sign-in" onPress={() => this.props.userLogin(email, password)} />
-                    <Button color="darkblue" title="sign-up" onPress={() => navigation.navigate('SignUp') }/>
+                    <Button color="grey" title="sign-up" onPress={() => navigation.navigate('SignUp') }/>
                 </View>
             </View>
         )
@@ -79,11 +79,13 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         width: '90%',
         height: 60,
+        alignContent: 'center',
         marginBottom: 10,
     },
     textInput: {
-        fontSize: 30,
+        fontSize: 40,
         marginLeft: 10,
+        alignContent: 'center',
     }
 })
 

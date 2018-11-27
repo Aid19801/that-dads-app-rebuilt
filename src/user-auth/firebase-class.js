@@ -116,28 +116,36 @@ class Firebase {
     }
 
     async useUIDtoSetID(uid) {
-
+        console.log(' foo 1');
+        return new Promise((resolve, reject) => {
+            console.log(' foo 2');
         // loop through all docs and retrieve the doc id we want:
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         var db = firebase.firestore();
 
+        console.log(' foo 3');
         db.settings({
             timestampsInSnapshots: true
         });
-
+        console.log(' foo 4');
+        let foo;
+        console.log(' foo 5');
         db.collection("users").get()
             .then(querySnapshot => {
+                console.log(' foo 6');
                 querySnapshot.forEach((doc) => {
+                    console.log(' foo 7');
                     let userDataObject = doc.data();
                     if (uid === userDataObject.uid) {
+                        console.log(' foo 8');
                         // if the user-auth uid from Firebase Authentication
                         // matches one of the Firestore document uid keys
                         // store the doc.id in async storage. Because this is the 'id' we
                         // use in Profile Page to retrieve Firestore details.
                         AsyncStorage.setItem('id', doc.id);
-
+                        foo = doc.id;
                         setTimeout(() => {
                             AsyncStorage.getItem('id').then(res => {
                                 console.log('checking `id` was saved to async: ', res);
@@ -145,10 +153,14 @@ class Firebase {
                         }, 1000);
                     }
                 });
+            console.log('foo: ', foo);
+            resolve(foo);
             })
             .catch(err => {
                 console.log('firebase | couldnt get user deets object or id | err: ', err);
+                reject(err);
             });
+        })
     }
     
     // *USER AUTHENTICATION* reading, writing email/pw accounts

@@ -1,2 +1,23 @@
-1. check register journey is saving uid to AsyncStorage
-as its not in props when ProfilePage loads.
+MongoDb / MBLAB of 20 msgs
+that is hosted as json on Heroku
+socketIO server = calls API
+Rn Chat page is alerted when new msg is posted.
+
+
+possible connection to mongo issue.
+deploy mondo / socket server to Heroku
+fade in FlatList
+fade in sending a msg
+fresh build
+unit tests
+
+
+
+
+
+socket io
+https://github.com/vinnyoodles/react-native-socket-io-example/blob/master/client/index.js
+
+https://www.valentinog.com/blog/socket-io-node-js-react/
+
+https://hackernoon.com/a-simple-messaging-app-with-react-native-and-socket-io-e1cae3df7bda
