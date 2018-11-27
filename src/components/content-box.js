@@ -1,21 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Platform } from 'react-native';
-// source={{ uri: props.imgUrl }}
+import { View, Text, StyleSheet, TouchableOpacity, Linking, Image, Platform } from 'react-native';
 
 const ContentBox = (props) => (
-    <View style={styles.container} onPress={() => alert('clicked!')}>
-        <Text style={styles.headline}>{props.headline}</Text>
-        <View style={styles.imageAndBlurbContainer}>
-            <Image
-                style={styles.image}
-                source={{ uri: props.imgUrl }}
-                style={{ width: 200, height: 170 }}
-            />
-            <View style={styles.blurbContainer}>
-                <Text style={styles.blurb}>{props.blurb}</Text>
+    <View style={styles.container}>
+        <TouchableOpacity onPress={() => Linking.openURL(props.url)}>
+            <Text style={styles.headline}>{props.headline}</Text>
+            <View style={styles.imageAndBlurbContainer}>
+                <Image
+                    style={styles.image}
+                    source={{ uri: props.imgUrl }}
+                    style={{ width: 200, height: 170 }}
+                />
+                <View style={styles.blurbContainer}>
+                    <Text style={styles.blurb}>{props.blurb}</Text>
+                </View>
+                
             </View>
-            
-        </View>
+        </TouchableOpacity>
     </View>
 )
 export default ContentBox;
