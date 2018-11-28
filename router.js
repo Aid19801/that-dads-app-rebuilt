@@ -8,6 +8,8 @@ import {
 import SignUp from './src/user-auth/screens/signup-page';
 import SignInPage from './src/user-auth/screens/signin-page';
 import { HomePage, ChatPage, PlaceHolder, LocalPage, ProfilePage } from './src/containers';
+import Foo from './src/containers/profilepage/foo';
+
 import { AsyncStorage } from 'react-native';
 
 export const isSignedIn = () => {
@@ -41,7 +43,7 @@ export const SignedOut = createStackNavigator({
 
 export const SignedIn = createBottomTabNavigator(
   {
-  Home: { screen: HomePage },
+  Home: { screen: Foo },
   Local: { screen: LocalPage },
   Chat: { screen: ChatPage },
   Profile: { screen: ProfilePage },

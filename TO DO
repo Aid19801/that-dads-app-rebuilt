@@ -12,12 +12,16 @@ fresh build
 unit tests
 
 
-
-
-
 socket io
 https://github.com/vinnyoodles/react-native-socket-io-example/blob/master/client/index.js
 
 https://www.valentinog.com/blog/socket-io-node-js-react/
 
 https://hackernoon.com/a-simple-messaging-app-with-react-native-and-socket-io-e1cae3df7bda
+
+
+
+
+
+Camera Upload
+https://github.com/react-native-community/react-native-camera
