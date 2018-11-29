@@ -54,9 +54,9 @@ export default class Foo extends Component {
             <View style={styles.container}>
             <Text>I want to select an image</Text>
             <Text>I want to select an image</Text>
-            <Text>I want to select an image</Text>
+            <Text>I want to hhhhhhh an image</Text>
 
-            <Button onPress={() => this.takePicture()} title="push me"/>
+            <Button onPress={() => this.takePicture()} title="select photo" />
             </View>
         )
     }
