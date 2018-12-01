@@ -3,7 +3,6 @@ import {
     createStackNavigator,
     createSwitchNavigator,
     createBottomTabNavigator,
-    BottomTabBar,
   } from "react-navigation";
 import SignUp from './src/user-auth/screens/signup-page';
 import SignInPage from './src/user-auth/screens/signin-page';
@@ -43,7 +42,7 @@ export const SignedOut = createStackNavigator({
 
 export const SignedIn = createBottomTabNavigator(
   {
-  Home: { screen: Foo },
+  Home: { screen: HomePage },
   Local: { screen: LocalPage },
   Chat: { screen: ChatPage },
   Profile: { screen: ProfilePage },
