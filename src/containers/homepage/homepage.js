@@ -26,6 +26,7 @@ class HomePage extends Component {
 
         // if user isnt logged in, bounce them back to Login
         if (this.props.uid === null) {
+            console.log('there is no uid, Adrian');
             this.props.killAsync()
             return this.props.navigation.navigate('SignIn');
         }

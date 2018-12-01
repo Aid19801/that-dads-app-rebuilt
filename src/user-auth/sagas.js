@@ -35,9 +35,10 @@ function* workerUserLogin(actionObject) {
     
     try {
         const resp = yield call(FirebaseClass.login, email, password);
+        console.log('AT | resp uid???? : ', resp);
         yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
-        yield call(AsyncStorage.setItem, 'uid', resp.user.uid);
-        yield put({ type: 'USER_LOGGED_IN', uid: resp.user.uid });
+        yield call(AsyncStorage.setItem, 'uid', resp.uid);
+        yield put({ type: 'USER_LOGGED_IN', uid: resp.uid });
     } catch (error) {
         yield put({ type: 'USER_LOGIN_FAIL', error });
     }

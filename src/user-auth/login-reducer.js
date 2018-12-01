@@ -26,7 +26,7 @@ export default loginReducer = (state = initialState, action) => {
             break;
 
         case 'USER_CLICKED_LOGIN':
-        console.log('USER_CLICKED_LOGIN');
+        console.log('USER_CLICKED_LOGIN', action);
             return {
                 ...state,
                 isLoading: true,

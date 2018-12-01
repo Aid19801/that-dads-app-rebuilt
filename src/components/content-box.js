@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign: 'center',
+        // textAlign: 'center',
     },
     image: {
         borderWidth: 1,
