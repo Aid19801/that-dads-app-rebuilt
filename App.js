@@ -8,7 +8,6 @@ import { firebaseConfig } from './src/user-auth/firebase';
 import { createRootNavigator, isSignedIn } from './router';
 
 
-
 if (Platform.OS === 'android') {
   console.log('Platform.OS is ', Platform.OS);
       if (typeof Symbol === 'undefined') {
