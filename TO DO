@@ -25,3 +25,8 @@ https://hackernoon.com/a-simple-messaging-app-with-react-native-and-socket-io-e1
 
 Camera Upload
 https://github.com/react-native-community/react-native-camera
+
+
+                <View style={styles.buttonContainer}>
+                    <Button title="kill async" onPress={() => this.props.killAsync()} />
+                </View>

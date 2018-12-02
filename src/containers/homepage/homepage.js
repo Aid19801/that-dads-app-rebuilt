@@ -50,10 +50,6 @@ class HomePage extends Component {
         return (
             <View style={styles.container}>
 
-                <View style={styles.buttonContainer}>
-                    <Button title="kill async" onPress={() => this.props.killAsync()} />
-                </View>
-
                 <View style={styles.flatListContainer}>
                     <FlatList
                         data={this.props.stories}

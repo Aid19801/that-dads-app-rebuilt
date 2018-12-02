@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign: 'center',
+        // textAlign: 'center',
         borderColor: 'white',
         borderWidth: 1,
     },
