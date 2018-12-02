@@ -26,6 +26,7 @@ class HomePage extends Component {
 
         // if user isnt logged in, bounce them back to Login
         if (this.props.uid === null) {
+            console.log('there is no uid, Adrian');
             this.props.killAsync()
             return this.props.navigation.navigate('SignIn');
         }
@@ -48,10 +49,6 @@ class HomePage extends Component {
         // if user is logged in and its not loading... show homepage.s
         return (
             <View style={styles.container}>
-
-                <View style={styles.buttonContainer}>
-                    <Button title="kill async" onPress={() => this.props.killAsync()} />
-                </View>
 
                 <View style={styles.flatListContainer}>
                     <FlatList

@@ -3,11 +3,12 @@ import {
     createStackNavigator,
     createSwitchNavigator,
     createBottomTabNavigator,
-    BottomTabBar,
   } from "react-navigation";
 import SignUp from './src/user-auth/screens/signup-page';
 import SignInPage from './src/user-auth/screens/signin-page';
 import { HomePage, ChatPage, PlaceHolder, LocalPage, ProfilePage } from './src/containers';
+import Foo from './src/containers/profilepage/foo';
+
 import { AsyncStorage } from 'react-native';
 
 export const isSignedIn = () => {

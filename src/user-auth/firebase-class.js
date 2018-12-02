@@ -116,30 +116,27 @@ class Firebase {
     }
 
     async useUIDtoSetID(uid) {
-        console.log(' foo 1');
         return new Promise((resolve, reject) => {
-            console.log(' foo 2');
         // loop through all docs and retrieve the doc id we want:
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         var db = firebase.firestore();
 
-        console.log(' foo 3');
         db.settings({
             timestampsInSnapshots: true
         });
-        console.log(' foo 4');
+
         let foo;
-        console.log(' foo 5');
+
         db.collection("users").get()
             .then(querySnapshot => {
-                console.log(' foo 6');
+
                 querySnapshot.forEach((doc) => {
-                    console.log(' foo 7');
+
                     let userDataObject = doc.data();
                     if (uid === userDataObject.uid) {
-                        console.log(' foo 8');
+
                         // if the user-auth uid from Firebase Authentication
                         // matches one of the Firestore document uid keys
                         // store the doc.id in async storage. Because this is the 'id' we
@@ -176,9 +173,10 @@ class Firebase {
     }
 
     async login(email, password) {
+
+
+        console.log('FIREBASE HAS FIRED, AID ', email, password);
         try {
-
-
             // clearing Async first because youre logging in afresh
             console.log('destroying async...');
             AsyncStorage.setItem('uid', '');
@@ -198,27 +196,32 @@ class Firebase {
             }, 1000);
             // ^^ clearing Async first because youre logging in afresh ^^ 
 
-
+            // USER AUTH LOGIN
             let user = await firebase.auth().signInWithEmailAndPassword(email, password);
             console.log('user logged in with Firebase user auth: ', user);
             
-            if(user && user.user && user.user.uid) {
+            console.log('AT 1');
+            if(user && user.uid) {
                 // loop through all docs and retrieve the doc id we want:
-
+                console.log('AT 2');
                 if (!firebase.apps.length) {
                     firebase.initializeApp(firebaseConfig);
                 }
                 var db = firebase.firestore();
-
+                console.log('AT 3');
                 db.settings({
                     timestampsInSnapshots: true
                 });
-
+                console.log('AT 4');
                 db.collection("users").get()
                     .then(querySnapshot => {
+                        console.log('AT 5 querySnapshot ', querySnapshot);
                         querySnapshot.forEach((doc) => {
+                            console.log('AT 6 doc ', doc.data());
                             let userDataObject = doc.data();
-                            if (user.user.uid === userDataObject.uid) {
+                            console.log('AT 7');
+                            if (user.uid === userDataObject.uid) {
+                                console.log('AT 8 ', doc.id);
                                 // if the user-auth uid from Firebase Authentication
                                 // matches one of the Firestore document uid keys
                                 // store the doc.id in async storage. Because this is the 'id' we

@@ -2,7 +2,7 @@ import { put, call, takeLatest } from 'redux-saga/effects';
 import Firebase from '../../user-auth/firebase-class';
 
 let FirebaseClass = new Firebase();
-const url = 'https://dads-scraper.herokuapp.com';
+const url = 'https://that-dads-news-feed.herokuapp.com/morning';
 
 export function* watcherLoadNews() {
     yield takeLatest('HOMEPAGE_LOADED', workerLoadNews);

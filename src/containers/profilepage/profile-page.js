@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, TextInput, Platform, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { LogoImage } from '../../components';
+import { FlatList, TextInput, TouchableOpacity, Platform, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { RNCamera } from 'react-native-camera';
+import { LogoImage } from '../../components';  
 
 class ProfilePage extends Component {
     
@@ -15,6 +16,14 @@ class ProfilePage extends Component {
             isUpdated: false,
         }
     }
+
+    takePicture = async function(camera) {
+        const options = { quality: 0.5, base64: true };
+        const data = await camera.takePictureAsync(options);
+        //  eslint-disable-next-line
+        console.log(data.uri);
+      }
+
 
     saveDetailsToChromeStore = () => {
         const { userName, tagline, likes, dislikes } = this.state;
@@ -65,6 +74,7 @@ class ProfilePage extends Component {
                         
                         <Text>New User | PROFILE | Please fill out fields below! </Text>
     
+                        
                         <View style={styles.textInputContainer}>
                             <TextInput style={styles.textInput} onChangeText={(userName) => this.setState({ userName })} placeholder="userName" />
                         </View>
@@ -90,6 +100,15 @@ class ProfilePage extends Component {
                 <View style={styles.container}>
                     
                     <LogoImage />
+                    
+
+                    <RNCamera
+                        style={styles.preview}
+                        type={RNCamera.Constants.Type.back}
+                        permissionDialogTitle={'Permission to use camera'}
+                        permissionDialogMessage={'We need your permission to use your camera phone'}
+                        />
+
 
                     <View style={styles.existingUserDetailsContainer}>
                         
@@ -153,6 +172,21 @@ const styles = StyleSheet.create({
     },
     loading: {
         marginTop: 100,
+    },
+    camContainer: {
+        height: 100,
+        width: 100,
+        borderColor: 'red',
+        borderWidth: 2,
+    },
+    preview: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: 'red',
+        width: 100,
+        height: 100,
     },
     newUserDetailsContainer: {
         flex: 1,
