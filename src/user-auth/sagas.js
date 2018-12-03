@@ -13,11 +13,11 @@ export function* workerUserSignup(actionObject) {
     
     try {
         const user = yield call(FirebaseClass.registerUser, email, password);
-        if (user.user.uid) {
-            yield put({ type: 'USER_SIGNUP_SUCCESS', uid: user.user.uid });
+        if (user.uid) {
+            yield put({ type: 'USER_SIGNUP_SUCCESS', uid: user.uid });
             yield call(AsyncStorage.setItem, 'isLoggedIn', 'true');
-            yield call(AsyncStorage.setItem, 'uid', user.user.uid);
-            yield put({ type: 'USER_LOGGED_IN', uid: user.user.uid });
+            yield call(AsyncStorage.setItem, 'uid', user.uid);
+            yield put({ type: 'USER_LOGGED_IN', uid: user.uid });
         }
     } catch (error) {
         yield put({ type: 'USER_SIGNUP_FAIL', error });

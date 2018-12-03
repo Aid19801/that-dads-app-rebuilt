@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, TextInput, TouchableOpacity, Platform, View, Button, Text, StyleSheet, ActivityIndicator, CameraRoll, Dimensions, } from 'react-native';
+import { Image, TextInput, TouchableOpacity, Platform, View, Button, Text, StyleSheet, ActivityIndicator, CameraRoll, Dimensions, } from 'react-native';
 import  ImagePicker from 'react-native-image-picker';
 require("react-native-image-picker");
 
@@ -35,10 +35,10 @@ export default class Foo extends Component {
             } else if (response.customButton) {
               console.log('User tapped custom button: ', response.customButton);
             } else {
-              const source = { uri: response.uri };
+              // const source = { uri: response.uri };
           
               // You can also display the image using data:
-              // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+              const source = { uri: 'data:image/jpeg;base64,' + response.data };
           
               this.setState({
                 avatarSource: source,
@@ -50,13 +50,15 @@ export default class Foo extends Component {
 
     render() {
 
+        console.log('this state ', this.state.avatarSource);
+
         return (
             <View style={styles.container}>
-            <Text>I want to select an image</Text>
-            <Text>I want to select an image</Text>
-            <Text>I want to hhhhhhh an image</Text>
 
-            <Button onPress={() => this.takePicture()} title="select photo" />
+                <Button onPress={() => this.takePicture()} title="select photo" />
+
+                <Image source={this.state.avatarSource} style={styles.uploadedImage}/>
+
             </View>
         )
     }
@@ -73,7 +75,13 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderColor: 'black',
         width: '100%',
-        paddingTop: 20,
+        paddingTop: 70,
+    },
+    uploadedImage: {
+        borderWidth: 2,
+        borderColor: 'red',
+        width: 200,
+        height: 100,
     },
     preview: {
         flex: 1,

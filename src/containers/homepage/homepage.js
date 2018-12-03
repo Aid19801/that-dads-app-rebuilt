@@ -50,6 +50,10 @@ class HomePage extends Component {
         return (
             <View style={styles.container}>
 
+                <View style={styles.buttonContainer}>
+                    <Button title="kill async" onPress={() => this.props.killAsync()} />
+                </View>
+
                 <View style={styles.flatListContainer}>
                     <FlatList
                         data={this.props.stories}
@@ -112,10 +116,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     buttonContainer: {
-        marginTop: 90,
-        height: 90,
-        width: 90,
-        borderWidth: 4,
-        borderColor: 'black',
+        marginTop: 30,
+        marginRight: 200,
+        height: 40,
+        width: 60,
+        borderWidth: 2,
+        borderColor: 'darkred',
     }
   });

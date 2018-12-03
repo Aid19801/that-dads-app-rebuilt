@@ -42,7 +42,7 @@ export const SignedOut = createStackNavigator({
 
 export const SignedIn = createBottomTabNavigator(
   {
-  Home: { screen: HomePage },
+  Home: { screen: Foo },
   Local: { screen: LocalPage },
   Chat: { screen: ChatPage },
   Profile: { screen: ProfilePage },
