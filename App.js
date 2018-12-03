@@ -1,3 +1,4 @@
+import Reactotron from 'reactotron-react-native'
 import React from 'react';
 import { Platform } from 'react-native';
 
@@ -29,6 +30,9 @@ if (Platform.OS === 'android') {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
+
+Reactotron.log(process.env.NODE_ENV)
+
 class App extends React.Component {
   constructor() {
     super();
@@ -45,6 +49,15 @@ class App extends React.Component {
   }
 
   render() {
+    Reactotron.log('Hello worlllllld');
+    Reactotron.warn('*glares*')
+    Reactotron.warn({ numbers: [1, 2, 3] })
+
+    Reactotron.display({
+      name: 'KNOCK KNOCK',
+      preview: 'Who\'s there?',
+      value: 'Orange.'
+    })
 
     const { checkedSignIn, signedIn } = this.state;
 
