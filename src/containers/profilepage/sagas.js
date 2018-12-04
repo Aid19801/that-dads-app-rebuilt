@@ -67,12 +67,10 @@ export function* watcherSetPhoto() {
 
 export function* workerSetPhoto(actionObj) {
     console.log('action obj ? => ', actionObj);
-    const { uri } = actionObj.img;
-    const { id } = actionObj;
 
-    const uploadStatus = yield call(FirebaseClass.useIdToStoreImageInFirebase, uri, id);
+    const uploadStatus = yield call(FirebaseClass.useIdToStoreImageInFirebase, actionObj.img, actionObj.id);
 
-    uploadStatus ? yield put({ type: 'PHOTO_SAVED_IN_CHROMESTORE' }) : yield put({ type: 'PHOTO_FAILED_IN_CHROMESTORE' })
+    uploadStatus ? yield put({ type: 'IMAGE_SET' }) : yield put({ type: 'IMAGE_FAILED' })
     
     // post to Database profile on Chromestore
     // if successful => yield put({ type: 'PHOTO_SAVED_IN_CHROMESTORE' })

@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, TextInput, TouchableOpacity, Platform, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { RNCamera } from 'react-native-camera';
+import { FlatList, Image, TextInput, TouchableOpacity, Platform, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+
+import  ImagePicker from 'react-native-image-picker';
+require("react-native-image-picker");
+
+const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+
 import { LogoImage } from '../../components';  
 
 class ProfilePage extends Component {
@@ -14,21 +26,59 @@ class ProfilePage extends Component {
             likes: '',
             dislikes: '',
             isUpdated: false,
+            hasUpdatedProfilePic: false,
+            img: '',
         }
+        this.takePicture = this.takePicture.bind(this);
     }
 
-    takePicture = async function(camera) {
-        const options = { quality: 0.5, base64: true };
-        const data = await camera.takePictureAsync(options);
-        //  eslint-disable-next-line
-        console.log(data.uri);
-      }
-
+    profilePicOrClipArt = () => {
+        const { hasUpdatedProfilePic, img } = this.state;
+        if (!hasUpdatedProfilePic && img === '') {
+            console.log('1');
+            return <LogoImage />
+        } else if (!hasUpdatedProfilePic && img !== '') {
+            console.log('22222 ', this.state);
+            return <Image source={{ uri: img }} style={styles.image} style={styles.uploadedImage} />
+        } else if (hasUpdatedProfilePic) {
+            console.log('3');
+            return <Image style={styles.image} source={this.props.img} style={styles.uploadedImage} />
+        }
+    }
 
     saveDetailsToChromeStore = () => {
         const { userName, tagline, likes, dislikes } = this.state;
         const { uid } = this.props;
         this.props.sendIdDetailsToChromeStore(userName, tagline, likes, dislikes, uid);
+    }
+
+    takePicture = function() {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+          
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.error) {
+              console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+              console.log('User tapped custom button: ', response.customButton);
+            } else {
+              // const source = { uri: response.uri };
+          
+              // You can also display the image using data:
+              const source = { uri: 'data:image/jpeg;base64,' + response.data };
+          
+              this.setState({
+                img: source.uri
+              });
+            }
+          });
+    }
+
+    sendPic = () => {
+        const { img } = this.state;
+        const { id } = this.props;
+        this.props.sendPicToFirebase(img, id);
     }
 
     componentWillMount = () => {
@@ -49,8 +99,9 @@ class ProfilePage extends Component {
 
     render() {
         const { newUser, isLoading } = this.props;
-        console.log('ProfilePage uid ', this.props.uid);
-        console.log('ProfilePage id ', this.props.id);
+
+        console.log('this props ', this.props);
+        console.log('this state ', this.state);
 
         if (this.props.isLoading) {
 
@@ -99,16 +150,10 @@ class ProfilePage extends Component {
             return (
                 <View style={styles.container}>
                     
-                    <LogoImage />
-                    
+                    { this.profilePicOrClipArt() }
 
-                    <RNCamera
-                        style={styles.preview}
-                        type={RNCamera.Constants.Type.back}
-                        permissionDialogTitle={'Permission to use camera'}
-                        permissionDialogMessage={'We need your permission to use your camera phone'}
-                        />
-
+                    <Button onPress={() => this.takePicture()} title="profile pic" />
+                    <Button onPress={() => this.sendPic()} title="keep?" />
 
                     <View style={styles.existingUserDetailsContainer}>
                         
@@ -142,6 +187,7 @@ const mapStateToProps = (state) => ({
     isLoading: state.profile.isLoading,
     isLoaded: state.profile.isLoaded,
     likes: state.profile.likes,
+    img: state.profile.img,
     dislikes: state.profile.dislikes,
     tagline: state.profile.tagline,
     userName: state.profile.userName,
@@ -153,12 +199,19 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'PROFILE_PAGE_LOADING' }),
     pageLoaded: () => dispatch({ type: 'PROFILE_PAGE_LOADED' }),
+    sendPicToFirebase: (img, id) => dispatch({ type: 'SETTING_IMAGE', img, id }),
     sendIdDetailsToChromeStore: (userName, tagline, likes, dislikes, uid) => dispatch({ type: 'SETTING_ID_DETAILS', userName, tagline, likes, dislikes, uid }) // <<- put reducer action in here
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
 
 const styles = StyleSheet.create({
+    uploadedImage: {
+        borderWidth: 2,
+        borderColor: 'red',
+        width: 200,
+        height: 100,
+    },
     container: {
         flex: 1,
         flexDirection: 'column',

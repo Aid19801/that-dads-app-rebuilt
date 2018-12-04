@@ -98,6 +98,24 @@ export default profilepageReducer = (state = initialState, action) => {
             }
             break;
 
+        case 'IMAGE_SET':
+        console.log('IMAGE_SET: ', action);
+            return {
+                ...state,
+                isLoading: false,
+
+            }
+            break;
+
+        case 'IMAGE_FAILED':
+        console.log('IMAGE_SET: ', action);
+            return {
+                ...state,
+                isLoading: false,
+                
+            }
+            break;
+
         default:
         return state;
     }
