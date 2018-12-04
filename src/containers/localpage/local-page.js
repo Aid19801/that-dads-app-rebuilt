@@ -64,7 +64,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'LOCAL_PAGE_LOADING' }),
-    pageLoaded: () => dispatch({ type: 'LOCAL_PAGE_LOADING' }),
+    pageLoaded: () => dispatch({ type: 'LOCAL_PAGE_LOADED' }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LocalPage);

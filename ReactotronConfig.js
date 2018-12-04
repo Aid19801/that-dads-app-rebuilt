@@ -8,3 +8,16 @@ const reactotron = Reactotron
   .connect() // let's connect!
 
   export default reactotron;
+
+
+  // examples of reactotron logging: 
+
+  // Reactotron.log('Hello worlllllld');
+  // Reactotron.warn('*glares*')
+  // Reactotron.warn({ numbers: [1, 2, 3] })
+
+  // Reactotron.display({
+  //   name: 'KNOCK KNOCK',
+  //   preview: 'Who\'s there?',
+  //   value: 'Orange.'
+  // })

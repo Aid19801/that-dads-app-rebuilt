@@ -59,3 +59,21 @@ export function* workerSetIDDetails(actionObj) {
         console.log('error: ', error);
     }
 }
+
+// SET | PHOTO - save to ChromeStore
+export function* watcherSetPhoto() {
+    yield takeLatest('SETTING_IMAGE', workerSetPhoto);
+}
+
+export function* workerSetPhoto(actionObj) {
+    console.log('action obj ? => ', actionObj);
+
+    // const base64ImgString = const { uri } = actionObj.img;
+    // take user's `id`
+    // post to Database profile on Chromestore
+    // if successful => yield put({ type: 'PHOTO_SAVED_IN_CHROMESTORE' })
+    // if un-successful => yield put({ type: 'PHOTO_FAILED_IN_CHROMESTORE' })
+    // save base64 string in AsyncStorage
+    // add base64 to login retrieval journey
+    // add base64 to registration retrieval journey?
+}

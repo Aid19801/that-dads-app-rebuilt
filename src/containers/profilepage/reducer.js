@@ -90,6 +90,14 @@ export default profilepageReducer = (state = initialState, action) => {
             }
             break;
 
+        case 'SETTING_IMAGE':
+        console.log('SETTING_IMAGE: ', action);
+            return {
+                ...state,
+                isLoading: true,
+            }
+            break;
+
         default:
         return state;
     }

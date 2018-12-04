@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Image, TextInput, TouchableOpacity, Platform, View, Button, Text, StyleSheet, ActivityIndicator, CameraRoll, Dimensions, } from 'react-native';
+import { Image, TextInput, TouchableOpacity, Platform, View, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
 import  ImagePicker from 'react-native-image-picker';
 require("react-native-image-picker");
 
@@ -13,7 +14,7 @@ const options = {
   };
   
 
-export default class Foo extends Component {
+class Foo extends Component {
 
     constructor() {
         super()
@@ -47,6 +48,17 @@ export default class Foo extends Component {
           });
     }
 
+    setImage = () => {
+        this.props.setImage(this.state.avatarSource);
+    }
+
+    componentWillMount() {
+        this.props.pageLoading();
+    }
+
+    componentDidMount() {
+        this.props.pageLoaded();
+    }
 
     render() {
 
@@ -57,13 +69,30 @@ export default class Foo extends Component {
 
                 <Button onPress={() => this.takePicture()} title="select photo" />
 
-                <Image source={this.state.avatarSource} style={styles.uploadedImage}/>
-
+                { this.state.avatarSource !== '' ?
+                    <View>
+                        <Image source={this.state.avatarSource} style={styles.uploadedImage}/>
+                        <Button title="keep?" onPress={this.setImage} /> 
+                    </View>
+                    :
+                    null
+                }
             </View>
         )
     }
 }
 
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = dispatch => ({
+    pageLoading: () => dispatch({ type: 'FOO_PAGE_LOADING' }),
+    pageLoaded: () => dispatch({ type: 'FOO_PAGE_LOADED' }),
+    setImage: (avatarSource) => dispatch({ type: 'SETTING_IMAGE', img: avatarSource }),
+})
+
+export default connect(null, mapDispatchToProps)(Foo);
 
 const styles = StyleSheet.create({
     container: {

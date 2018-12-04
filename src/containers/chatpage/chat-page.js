@@ -21,9 +21,15 @@ export class ChatPage extends Component {
             messages,
         })
     })
-  }  
+  }
+
+  onChangeText = (newMessage) => {
+    this.props.userTypingMessage();
+    this.setState({ newMessage })
+  }
 
   sendMessage = async () => {
+    this.props.userSendingMessage();
     const { newMessage } = this.state;
     const { userName, id } = this.props;
 
@@ -36,23 +42,26 @@ export class ChatPage extends Component {
 
     try {
         await this.socket.emit('newMessage', msgObject);
+        this.props.messageSent();
     } catch (error) {
         console.log('websocket send msg error: ', error);
+        this.props.messageFailed(error);
     }
 
     this.setState({
         newMessage: '',
-    })
+    });
   }
 
   componentWillMount = () => {
     this.props.pageLoading();
   }
 
-  render() {
+  componentDidMount = () => {
+    this.props.pageLoaded();
+  }
 
-    console.log('chat | THIS STATE ', this.state);
-    console.log('chat | this.props ', this.props);
+  render() {
 
     if (this.state.messages.length === 0) {
         return (
@@ -83,7 +92,7 @@ export class ChatPage extends Component {
                         }
                     />
                 <View style={styles.textInputContainer}>
-                    <TextInput onChangeText={(newMessage) => this.setState({ newMessage })} 
+                    <TextInput onChangeText={(msg) => this.onChangeText(msg)} 
                         style={styles.textInput}
                         value={this.state.newMessage}
                         placeholder="type msg here..."
@@ -111,6 +120,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'CHAT_PAGE_LOADING'}),
+    pageLoaded: () => dispatch({ type: 'CHAT_PAGE_LOADED'}),
+    userTypingMessage: () => dispatch({ type: 'USER_TYPING_MSG' }),
+    userSendingMessage: () => dispatch({ type: 'USER_SENDING_MSG' }),
+    messageSent: () => dispatch({ type: 'MESSAGE_SENT' }),
+    messageFailed: (error) => dispatch({ type: 'MESSAGE_FAILED', error }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatPage);
@@ -154,7 +168,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
         alignItems: 'center',
         justifyContent: 'center',
-        // textAlign: 'center',
         borderColor: 'white',
         borderWidth: 1,
     },

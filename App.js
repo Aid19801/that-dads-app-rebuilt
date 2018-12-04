@@ -49,15 +49,6 @@ class App extends React.Component {
   }
 
   render() {
-    Reactotron.log('Hello worlllllld');
-    Reactotron.warn('*glares*')
-    Reactotron.warn({ numbers: [1, 2, 3] })
-
-    Reactotron.display({
-      name: 'KNOCK KNOCK',
-      preview: 'Who\'s there?',
-      value: 'Orange.'
-    })
 
     const { checkedSignIn, signedIn } = this.state;
 
