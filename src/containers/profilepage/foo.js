@@ -49,7 +49,9 @@ class Foo extends Component {
     }
 
     setImage = () => {
-        this.props.setImage(this.state.avatarSource);
+        const { avatarSource } = this.state;
+        const { id } = this.props;
+        this.props.setImage(avatarSource, id);
     }
 
     componentWillMount() {
@@ -83,16 +85,17 @@ class Foo extends Component {
 }
 
 const mapStateToProps = state => ({
-
+    id: state.profile.id,
+    userName: state.profile.userName,
 })
 
 const mapDispatchToProps = dispatch => ({
     pageLoading: () => dispatch({ type: 'FOO_PAGE_LOADING' }),
     pageLoaded: () => dispatch({ type: 'FOO_PAGE_LOADED' }),
-    setImage: (avatarSource) => dispatch({ type: 'SETTING_IMAGE', img: avatarSource }),
+    setImage: (avatarSource, id) => dispatch({ type: 'SETTING_IMAGE', img: avatarSource, id }),
 })
 
-export default connect(null, mapDispatchToProps)(Foo);
+export default connect(mapStateToProps, mapDispatchToProps)(Foo);
 
 const styles = StyleSheet.create({
     container: {

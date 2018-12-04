@@ -115,6 +115,30 @@ class Firebase {
         })
     }
 
+    async useIdToStoreImageInFirebase(uri, id) {
+
+        return new Promise((resolve, reject) => {
+            console.log('in Promise | uri is', uri);
+            console.log('in Promise | id is', id);
+            // loop through all docs and retrieve the doc id we want:
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            var db = firebase.firestore();
+
+            db.settings({
+                timestampsInSnapshots: true
+            });
+
+            const user = db.collection("users").doc(id)
+
+            user.update({
+                img: uri,
+            });
+            resolve(true);
+        })
+    }
+
     async useUIDtoSetID(uid) {
         return new Promise((resolve, reject) => {
         // loop through all docs and retrieve the doc id we want:
