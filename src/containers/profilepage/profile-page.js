@@ -33,19 +33,21 @@ class ProfilePage extends Component {
     }
 
     profilePicOrClipArt = () => {
-        const { hasUpdatedProfilePic, img } = this.state;
-        if (!hasUpdatedProfilePic && img === '') {
+        const { img } = this.state;
+        const { profilePicExists } = this.props;
+        if (!profilePicExists && img === '') {
             console.log('1');
             return <LogoImage />
-        } else if (!hasUpdatedProfilePic && img !== '') {
-            console.log('22222 ', this.state);
-            return <Image source={{ uri: img }} style={styles.image} style={styles.uploadedImage} />
-        } else if (hasUpdatedProfilePic) {
+        } else if (!profilePicExists && img !== '') {
+            console.log('2 ', this.state);
+            return <Image source={{ uri: img }} style={styles.uploadedImage} />
+        } else if (profilePicExists) {
             console.log('3');
-            return <Image style={styles.image} source={this.props.img} style={styles.uploadedImage} />
+            return <Image source={{ uri: img }}  style={styles.uploadedImage} />
         }
     }
 
+    
     saveDetailsToChromeStore = () => {
         const { userName, tagline, likes, dislikes } = this.state;
         const { uid } = this.props;
@@ -93,6 +95,11 @@ class ProfilePage extends Component {
         if (nextProps.id !== '') {
             this.setState({
                 isUpdated: true,
+            })
+        }
+        if (nextProps.img !== this.props.img) {
+            this.setState({
+                img: nextProps.img,
             })
         }
     }
@@ -194,6 +201,7 @@ const mapStateToProps = (state) => ({
     newUser: state.profile.newUser,
     uid: state.homepage.uid,
     id: state.profile.id,
+    profilePicExists: state.profile.profilePicExists,
 });
     
 const mapDispatchToProps = (dispatch) => ({
