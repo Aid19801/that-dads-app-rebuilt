@@ -86,7 +86,7 @@ class Firebase {
 
     async setUserDetailsObject(userName, tagline, likes, dislikes, uid, img) {
         return new Promise((resolve, reject) => {
-            
+            console.log('AT | img length: ', img.length);
             let uniqueFireStoreDocumentReference = `${Date.now()}_${userName}_${uid}`;
             console.log('AT | uniqueFireStoreDocumentReference: ', uniqueFireStoreDocumentReference);
             AsyncStorage.setItem('id', uniqueFireStoreDocumentReference);
@@ -100,6 +100,18 @@ class Firebase {
                 timestampsInSnapshots: true,
             })
 
+            // initiate Cloud Storage for photo
+            // Create a root reference
+            var storageRef = firebase.storage().ref();
+
+            // Create a reference to this user
+            var userRef = storageRef.child(uniqueFireStoreDocumentReference);
+            
+            userRef.putString(img, 'base64').then((snapshot) => {
+                console.log('Uploaded a base64 string!');
+            });
+
+
             db.collection("users").doc(uniqueFireStoreDocumentReference).set({
                 userName,
                 tagline,
@@ -108,10 +120,11 @@ class Firebase {
                 uid,
             })
             .then((res) => {
+                console.log("🤓👍🏻 Yay!new user `ID` obj written to FireStore");
                 resolve(uniqueFireStoreDocumentReference)
             })
             .catch((err) => {
-                console.error("Error writing document: ", err);
+                console.error("💩 FFS. Error writing new user `ID` doc to FireStore => ", err);
                 reject(err);
             });
 

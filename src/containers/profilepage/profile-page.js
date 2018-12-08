@@ -142,7 +142,8 @@ class ProfilePage extends Component {
 
                     <Button onPress={() => this.takePicture()} title="update profile pic" />
 
-                    <Image source={{ uri: img }} style={styles.imageContainer} />
+                    { img ? <Image source={{ uri: 'data:image/jpeg;base64,' + img }} style={styles.imageContainer} /> : null  }
+                    
 
                     <View style={styles.existingUserDetailsContainer}>
                         
