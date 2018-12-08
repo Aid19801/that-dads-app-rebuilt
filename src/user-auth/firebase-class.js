@@ -3,6 +3,8 @@ import firebase from 'firebase';
 import { firebaseConfig } from './firebase';
 import '@firebase/firestore';
 
+import Reactotron from 'reactotron-react-native'
+
 class Firebase {
 
     // *ASYNC STORAGE* reading, writing AsyncStorage information (id's)
@@ -42,6 +44,7 @@ class Firebase {
         AsyncStorage.setItem('uid', '');
         AsyncStorage.setItem('id', '');
         AsyncStorage.setItem('isLoggedIn', 'false');
+        AsyncStorage.setItem('profilePicUpdated', 'false');
 
         setTimeout(() => {
             AsyncStorage.getItem('uid').then(res => {
@@ -81,7 +84,7 @@ class Firebase {
         })
     }
 
-    async setUserDetailsObject(userName, tagline, likes, dislikes, uid) {
+    async setUserDetailsObject(userName, tagline, likes, dislikes, uid, img) {
         return new Promise((resolve, reject) => {
             
             let uniqueFireStoreDocumentReference = `${Date.now()}_${userName}_${uid}`;
@@ -112,6 +115,17 @@ class Firebase {
                 reject(err);
             });
 
+            // db.collection("users").doc(uniqueFireStoreDocumentReference).set({
+            //     img,
+            // })
+            // .then((res) => {
+            //     resolve(uniqueFireStoreDocumentReference)
+            // })
+            // .catch((err) => {
+            //     console.error("Error writing document: ", err);
+            //     reject(err);
+            // });
+
         })
     }
 
@@ -135,6 +149,7 @@ class Firebase {
             user.update({
                 img: uri,
             });
+            AsyncStorage.setItem('profilePicUpdated', 'true');
             resolve(true);
         })
     }

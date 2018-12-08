@@ -8,6 +8,7 @@ const initialState = {
     dislikes: '',
     id: '',
     uid: '',
+    img: '',
     profilePicExists: false,
 }
 
@@ -47,6 +48,7 @@ export default profilepageReducer = (state = initialState, action) => {
                 likes: action.likes,
                 dislikes: action.dislikes,
                 id: action.id,
+                img: action.img,
             }
             break;
 
@@ -78,6 +80,7 @@ export default profilepageReducer = (state = initialState, action) => {
                 likes: action.likes,
                 dislikes: action.dislikes,
                 uid: action.uid,
+                img: action.img,
             }
             break;
 

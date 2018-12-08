@@ -35,3 +35,12 @@ button > takePhoto or Choose from Library.
     takePhoto => 'Camera not available on simulator'
     choose from library => 'tda would like access to your photos' => 'ok' => go to camera roll => 
         select photo => provides a response object:
+
+WHERE DID WE GET TO
+you can upload a photo
+it saves it to DB
+pressing 'keep' keeps photo rendering.
+
+next: 
+press 'keep' button should kill the keep btn.
+when ProfilePage loads => it should pull in profile photo.

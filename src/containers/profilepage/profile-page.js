@@ -27,31 +27,15 @@ class ProfilePage extends Component {
             dislikes: '',
             isUpdated: false,
             hasUpdatedProfilePic: false,
-            img: '',
+            img: null,
         }
         this.takePicture = this.takePicture.bind(this);
     }
-
-    profilePicOrClipArt = () => {
-        const { img } = this.state;
-        const { profilePicExists } = this.props;
-        if (!profilePicExists && img === '') {
-            console.log('1');
-            return <LogoImage />
-        } else if (!profilePicExists && img !== '') {
-            console.log('2 ', this.state);
-            return <Image source={{ uri: img }} style={styles.uploadedImage} />
-        } else if (profilePicExists) {
-            console.log('3');
-            return <Image source={{ uri: img }}  style={styles.uploadedImage} />
-        }
-    }
-
     
     saveDetailsToChromeStore = () => {
-        const { userName, tagline, likes, dislikes } = this.state;
+        const { userName, tagline, likes, dislikes, img } = this.state;
         const { uid } = this.props;
-        this.props.sendIdDetailsToChromeStore(userName, tagline, likes, dislikes, uid);
+        this.props.sendIdDetailsToChromeStore(userName, tagline, likes, dislikes, uid, img);
     }
 
     takePicture = function() {
@@ -71,16 +55,11 @@ class ProfilePage extends Component {
               const source = { uri: 'data:image/jpeg;base64,' + response.data };
           
               this.setState({
-                img: source.uri
+                img: response.data
+                // firebaseImg: response.data,
               });
             }
           });
-    }
-
-    sendPic = () => {
-        const { img } = this.state;
-        const { id } = this.props;
-        this.props.sendPicToFirebase(img, id);
     }
 
     componentWillMount = () => {
@@ -95,11 +74,6 @@ class ProfilePage extends Component {
         if (nextProps.id !== '') {
             this.setState({
                 isUpdated: true,
-            })
-        }
-        if (nextProps.img !== this.props.img) {
-            this.setState({
-                img: nextProps.img,
             })
         }
     }
@@ -132,6 +106,11 @@ class ProfilePage extends Component {
                         
                         <Text>New User | PROFILE | Please fill out fields below! </Text>
     
+                        { !this.state.img && <Image style={styles.uploadedImage} source={require('/Users/ath18/Documents/projects/tda/utils/logo-image.png')} /> }
+                        
+                        { this.state.img && <Image style={styles.uploadedImage} source={{ uri: 'data:image/jpeg;base64,' + this.state.img }} /> }
+
+                        <Button onPress={() => this.takePicture()} title="change pic" />
                         
                         <View style={styles.textInputContainer}>
                             <TextInput style={styles.textInput} onChangeText={(userName) => this.setState({ userName })} placeholder="userName" />
@@ -153,14 +132,17 @@ class ProfilePage extends Component {
         }
         if (!newUser) {
 
-            const { userName, tagline, likes, dislikes } = this.props;
+            const { userName, tagline, likes, dislikes, img } = this.props;
             return (
                 <View style={styles.container}>
-                    
-                    { this.profilePicOrClipArt() }
+                
+                    <View style={styles.buttonContainer}>
+                        <Button title="kill async" onPress={() => this.props.killAsync()} />
+                    </View>
 
-                    <Button onPress={() => this.takePicture()} title="profile pic" />
-                    <Button onPress={() => this.sendPic()} title="keep?" />
+                    <Button onPress={() => this.takePicture()} title="update profile pic" />
+
+                    <Image source={{ uri: img }} style={styles.imageContainer} />
 
                     <View style={styles.existingUserDetailsContainer}>
                         
@@ -208,7 +190,8 @@ const mapDispatchToProps = (dispatch) => ({
     pageLoading: () => dispatch({ type: 'PROFILE_PAGE_LOADING' }),
     pageLoaded: () => dispatch({ type: 'PROFILE_PAGE_LOADED' }),
     sendPicToFirebase: (img, id) => dispatch({ type: 'SETTING_IMAGE', img, id }),
-    sendIdDetailsToChromeStore: (userName, tagline, likes, dislikes, uid) => dispatch({ type: 'SETTING_ID_DETAILS', userName, tagline, likes, dislikes, uid }) // <<- put reducer action in here
+    sendIdDetailsToChromeStore: (userName, tagline, likes, dislikes, uid, img) => dispatch({ type: 'SETTING_ID_DETAILS', userName, tagline, likes, dislikes, uid, img }), // <<- put reducer action in here
+    killAsync: () => dispatch({ type: 'KILL_ALL_ASYNC' })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
@@ -230,6 +213,12 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         width: '100%',
         paddingTop: 20,
+    },
+    imageContainer: {
+        width: 150,
+        height: 100,
+        borderColor: 'red',
+        borderWidth: 2,
     },
     loading: {
         marginTop: 100,

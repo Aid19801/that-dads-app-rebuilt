@@ -35,8 +35,8 @@ export function* workerGetIDDetails() {
         console.log('You have a obj id so now firing worker *Get* IDDetails');
         const id = yield call(FirebaseClass.getAsyncObjId); // they setup a profile with all info.
         const resp = yield call(FirebaseClass.getUserDetailsObject, id);
-        const { userName, tagline, likes, dislikes } = resp;
-        yield put({ type: 'GOT_ID_DETAILS_FROM_CHROMESTORE', userName, tagline, likes, dislikes, id });   
+        const { userName, tagline, likes, dislikes, img } = resp;
+        yield put({ type: 'GOT_ID_DETAILS_FROM_CHROMESTORE', userName, tagline, likes, dislikes, id, img });
     } catch (error) {
         console.log('error: ', error);
     }
@@ -50,10 +50,10 @@ export function* watcherSetIDDetails() {
 }
 
 export function* workerSetIDDetails(actionObj) {    
-    const { userName, tagline, likes, dislikes, uid } = actionObj;
+    const { userName, tagline, likes, dislikes, uid, img } = actionObj;
 
     try {
-        const id = yield call(FirebaseClass.setUserDetailsObject, userName, tagline, likes, dislikes, uid);
+        const id = yield call(FirebaseClass.setUserDetailsObject, userName, tagline, likes, dislikes, uid, img);
         yield put({ type: 'ID_DETAILS_SET', id })
     } catch (error) {
         console.log('error: ', error);
